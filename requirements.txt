@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+jinja2
+weasyprint
+pdfplumber
+matplotlib
+python-dotenv
+python-multipart

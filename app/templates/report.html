@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>NoRiskButFun Supplier Report</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        color: #222;
+        margin: 24px;
+      }
+      h1, h2, h3 {
+        color: #1f3b63;
+        margin-bottom: 8px;
+      }
+      .meta, .notice {
+        margin-bottom: 16px;
+      }
+      .notice {
+        padding: 10px;
+        background: #f7f2d8;
+        border-left: 4px solid #d5b94a;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 18px;
+      }
+      th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background: #f0f4f8;
+      }
+      .plot {
+        margin: 12px 0 18px;
+      }
+      .plot img {
+        width: 100%;
+        max-width: 700px;
+      }
+      ul {
+        padding-left: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Supplier Financial Report</h1>
+
+    <div class="meta">
+      <p><strong>Supplier:</strong> {{ supplier_name }}</p>
+      <p><strong>Reporting year focus:</strong> {{ focus_record.year }}</p>
+      <p><strong>Available history:</strong> {{ year_range }}</p>
+      <p><strong>Source file:</strong> {{ focus_record.source_filename or "Unknown" }}</p>
+    </div>
+
+    <div class="notice">
+      <strong>Version 1 note:</strong>
+      PDF extraction, KPI parsing, scoring, and news lookup use intentionally simple logic.
+      Review the output before using it for business decisions.
+    </div>
+
+    <h2>Current KPI snapshot</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>KPI</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Turnover</td><td>{{ focus_record.turnover if focus_record.turnover is not none else "n/a" }}</td></tr>
+        <tr><td>EBIT</td><td>{{ focus_record.ebit if focus_record.ebit is not none else "n/a" }}</td></tr>
+        <tr><td>EBITDA</td><td>{{ focus_record.ebitda if focus_record.ebitda is not none else "n/a" }}</td></tr>
+        <tr><td>Employees</td><td>{{ focus_record.employees if focus_record.employees is not none else "n/a" }}</td></tr>
+        <tr><td>Investments</td><td>{{ focus_record.investments if focus_record.investments is not none else "n/a" }}</td></tr>
+        <tr><td>Quick score</td><td>{{ focus_record.quick_score if focus_record.quick_score is not none else "n/a" }}</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Historical supplier data</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th>Turnover</th>
+          <th>EBIT</th>
+          <th>EBITDA</th>
+          <th>Employees</th>
+          <th>Investments</th>
+          <th>Quick score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in ordered_records %}
+        <tr>
+          <td>{{ record.year }}</td>
+          <td>{{ record.turnover if record.turnover is not none else "n/a" }}</td>
+          <td>{{ record.ebit if record.ebit is not none else "n/a" }}</td>
+          <td>{{ record.ebitda if record.ebitda is not none else "n/a" }}</td>
+          <td>{{ record.employees if record.employees is not none else "n/a" }}</td>
+          <td>{{ record.investments if record.investments is not none else "n/a" }}</td>
+          <td>{{ record.quick_score if record.quick_score is not none else "n/a" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2>Historical plots</h2>
+    {% if plots.turnover %}
+    <div class="plot">
+      <h3>Turnover over time</h3>
+      <img src="{{ plots.turnover }}" alt="Turnover history plot" />
+    </div>
+    {% else %}
+    <p>Turnover plot not available yet because no turnover values were stored.</p>
+    {% endif %}
+
+    {% if plots.employees %}
+    <div class="plot">
+      <h3>Employees over time</h3>
+      <img src="{{ plots.employees }}" alt="Employee history plot" />
+    </div>
+    {% else %}
+    <p>Employees plot not available yet because no employee values were stored.</p>
+    {% endif %}
+
+    <h2>Supplier news summary</h2>
+    <p>{{ news_summary }}</p>
+  </body>
+</html>
