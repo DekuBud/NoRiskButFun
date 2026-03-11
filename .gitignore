@@ -1,0 +1,57 @@
+# Ignore common Python, tooling and editor files
+# Keep PDFs tracked (do NOT ignore *.pdf)
+
+# Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Packaging
+dist/
+build/
+*.egg-info/
+pip-wheel-metadata/
+
+# Testing
+.pytest_cache/
+.tox/
+.coverage
+coverage.xml
+htmlcov/
+
+# Type/checker caches
+.mypy_cache/
+
+# SQLite database used for local development
+noriskbutfun.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Editor temporary files
+*~
+*.swp
+
+# Node modules (if accidentally present)
+node_modules/
+
+# NOTE: Do not add a pattern like '*.pdf' here — PDFs should remain tracked.

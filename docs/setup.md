@@ -44,3 +44,8 @@ http://127.0.0.1:8000
 - SQLite is the default embedded database for version 1.
 - `WeasyPrint` may require system libraries on Linux depending on the machine setup.
 - The upload route expects one PDF with extractable text.
+
+# run database
+sqlite_web noriskbutfun.db --host 127.0.0.1 --port 8081
+
+
