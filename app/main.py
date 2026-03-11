@@ -4,16 +4,16 @@ from __future__ import annotations
 from contextlib import asynccontextmanager
 from typing import Optional
 
-from fastapi import Depends, FastAPI, File, HTTPException, Query, Response, UploadFile
+from fastapi import Depends, FastAPI, File, Form, HTTPException, Query, Response, UploadFile
 from fastapi.responses import HTMLResponse
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.database import create_db_and_tables, get_db
-from app.kpi_parser import parse_kpis
+from app.kpi_parser import parse_kpis, parse_kpis_from_json
 from app.models import Supplier, SupplierYearData
 from app.news_service import build_news_service_from_env
-from app.pdf_extractor import extract_text_from_pdf_bytes, identify_supplier_and_year
+from app.pdf_extractor import extract_text_from_pdf_bytes, identify_supplier_and_year, pdf_tables_to_json
 from app.report_generator import generate_supplier_report_pdf
 from app.scoring import calculate_quick_score
 
@@ -36,23 +36,69 @@ def home() -> str:
     """Show one small upload form for local testing."""
     return """
     <html>
-      <head><title>NoRiskButFun</title></head>
+      <head>
+        <title>NoRiskButFun</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; background: #f5f5f5; }
+          h1 { color: #333; }
+          .form-card { background: white; border-radius: 8px; padding: 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+          .form-group { margin-bottom: 20px; }
+          label { display: block; margin-bottom: 8px; font-weight: 500; color: #333; }
+          input[type="text"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; box-sizing: border-box; }
+          input[type="text"]:focus, input[type="file"]:focus { outline: none; border-color: #0066cc; box-shadow: 0 0 0 3px rgba(0,102,204,0.1); }
+          button { background: #0066cc; color: white; padding: 12px 24px; border: none; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; }
+          button:hover { background: #0052a3; }
+          .info { background: #f0f8ff; padding: 15px; border-left: 4px solid #0066cc; margin-top: 20px; color: #333; }
+          code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; }
+        </style>
+      </head>
       <body>
         <h1>NoRiskButFun</h1>
-        <p>Upload one supplier PDF to extract KPIs and store supplier-year data.</p>
-        <form action="/upload" enctype="multipart/form-data" method="post">
-          <input name="file" type="file" accept="application/pdf" required />
-          <button type="submit">Upload PDF</button>
-        </form>
-        <p>Then open <code>/suppliers/{supplier_id}</code> or <code>/suppliers/{supplier_id}/report</code>.</p>
+        <div class="form-card">
+          <p>Upload a supplier PDF and provide the supplier name to extract KPIs and store financial data.</p>
+          <form action="/upload" enctype="multipart/form-data" method="post">
+            <div class="form-group">
+              <label for="supplier_name">Supplier Name *</label>
+              <input id="supplier_name" name="supplier_name" type="text" placeholder="e.g., Acme Corp" required />
+            </div>
+            <div class="form-group">
+              <label for="file">PDF File *</label>
+              <input id="file" name="file" type="file" accept="application/pdf" required />
+            </div>
+                        <button type="submit">Upload & Extract KPIs (text)</button>
+          </form>
+        </div>
+                <div class="form-card" style="margin-top:24px">
+                    <h2 style="font-size:1.1rem;margin-top:0">Table-based extraction</h2>
+                    <p>Extracts company name, year, turnover and employees directly from PDF tables.</p>
+                    <form action="/upload-tables" enctype="multipart/form-data" method="post">
+                        <div class="form-group">
+                            <label for="file2">PDF File *</label>
+                            <input id="file2" name="file" type="file" accept="application/pdf" required />
+                        </div>
+                        <button type="submit">Upload & Extract KPIs (tables)</button>
+                    </form>
+                </div>
+        <div class="info">
+          <p><strong>Next steps:</strong></p>
+          <p>After upload, access the supplier history at <code>/suppliers/{supplier_id}</code><br/>or generate a PDF report at <code>/suppliers/{supplier_id}/report</code></p>
+        </div>
       </body>
     </html>
     """
 
 
 @app.post("/upload")
-def upload_supplier_pdf(file: UploadFile = File(...), db: Session = Depends(get_db)) -> dict:
-    """Upload one PDF, extract data, and create or update one supplier-year record."""
+def upload_supplier_pdf(
+    supplier_name: str = Form(...),
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+) -> dict:
+    """Upload one PDF with manual supplier name, extract KPIs, and store supplier-year record."""
+    if not supplier_name or not supplier_name.strip():
+        raise HTTPException(status_code=400, detail="Supplier name is required.")
+    supplier_name = supplier_name.strip()
+
     if not file.filename or not file.filename.lower().endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Please upload a PDF file.")
 
@@ -64,9 +110,7 @@ def upload_supplier_pdf(file: UploadFile = File(...), db: Session = Depends(get_
     if not raw_text:
         raise HTTPException(status_code=422, detail="No readable text could be extracted from the PDF.")
 
-    supplier_name, reporting_year = identify_supplier_and_year(raw_text, file.filename)
-    if not supplier_name:
-        raise HTTPException(status_code=422, detail="Could not identify the supplier name.")
+    _, reporting_year = identify_supplier_and_year(raw_text, file.filename)
     if reporting_year is None:
         raise HTTPException(status_code=422, detail="Could not identify the reporting year.")
 
@@ -143,6 +187,78 @@ def upload_supplier_pdf(file: UploadFile = File(...), db: Session = Depends(get_
             "supplier_name": supplier_name,
             "reporting_year": reporting_year,
             "kpis": kpis,
+            "quick_score": quick_score,
+        },
+    }
+
+
+@app.post("/upload-tables")
+def upload_supplier_pdf_tables(
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+) -> dict:
+    """Upload a PDF, extract KPIs from its tables (structured JSON), store and return results."""
+    if not file.filename or not file.filename.lower().endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Please upload a PDF file.")
+
+    pdf_bytes = file.file.read()
+    if not pdf_bytes:
+        raise HTTPException(status_code=400, detail="The uploaded PDF is empty.")
+
+    tables_json = pdf_tables_to_json(pdf_bytes)
+    kpis = parse_kpis_from_json(tables_json)
+
+    company_name: str = kpis.get("company_name") or (file.filename or "Unknown Supplier")
+    reporting_year: Optional[int] = kpis.get("year")
+    if reporting_year is None:
+        raise HTTPException(status_code=422, detail="Could not identify the reporting year from the PDF tables.")
+
+    turnover = _to_optional_float(kpis.get("turnover"))
+    ebit = _to_optional_float(kpis.get("ebit"))
+    ebitda = _to_optional_float(kpis.get("ebitda"))
+    employees = _to_optional_int(kpis.get("employees"))
+    quick_score = calculate_quick_score(
+        turnover=turnover,
+        ebit=ebit,
+        ebitda=ebitda,
+        employees=employees,
+        investments=None,
+    )
+
+    try:
+        supplier = _get_or_create_supplier(db, company_name)
+        yearly_record, action = _upsert_supplier_year_data(
+            db=db,
+            supplier=supplier,
+            year=reporting_year,
+            source_filename=file.filename,
+            turnover=turnover,
+            ebit=ebit,
+            ebitda=ebitda,
+            employees=employees,
+            investments=None,
+            quick_score=quick_score,
+        )
+        db.commit()
+        db.refresh(supplier)
+        db.refresh(yearly_record)
+    except Exception as exc:
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Failed to store extracted supplier data.") from exc
+
+    return {
+        "message": f"Upload processed successfully ({action}).",
+        "supplier": {"id": supplier.id, "name": supplier.name},
+        "year_data": _serialize_year_data(yearly_record),
+        "extraction": {
+            "company_name": company_name,
+            "reporting_year": reporting_year,
+            "kpis": {
+                "turnover": turnover,
+                "ebit": ebit,
+                "ebitda": ebitda,
+                "employees": employees,
+            },
             "quick_score": quick_score,
         },
     }
