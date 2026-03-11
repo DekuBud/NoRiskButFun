@@ -1,6 +1,14 @@
 import pdfplumber
 import json
 from kpi_parser import parse_kpis_from_json
+import sys
+from pathlib import Path
+
+project_root = Path(__file__).resolve().parents[1]
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
+from docs.LLmFilter import parse_kpis
 
 def pdf_tables_to_json(pdf_path):
     all_tables = []
@@ -32,6 +40,14 @@ def pdf_tables_to_json(pdf_path):
     # Return the final list as a formatted JSON string
     return json.dumps(all_tables, indent=4)
 
+
+def extract_pdf_text(pdf_path):
+    page_texts = []
+    with pdfplumber.open(pdf_path) as pdf:
+        for page in pdf.pages:
+            page_texts.append(page.extract_text() or "")
+    return "\n".join(page_texts)
+
 # --- Usage ---
 # Replace 'your_report.pdf' with your actual file path
 file_path = "/home/tgk/Downloads/Weiden i. d. OPf._HRA_2209_11.03.2026.pdf"
@@ -41,10 +57,27 @@ try:
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(json_output)
     print(f"Saved to {output_path}")
+    print()
 
-    kpis = parse_kpis_from_json(json_output)
+    # Test table-based parser
+    print("=" * 60)
+    print("TABLE-BASED PARSER (parse_kpis_from_json)")
+    print("=" * 60)
+    kpis_table = parse_kpis_from_json(json_output)
     print("Extracted KPIs:")
-    for k, v in kpis.items():
+    for k, v in kpis_table.items():
         print(f"  {k}: {v}")
+    print()
+
+    # Test LLM filter parser
+    print("=" * 60)
+    print("LLM FILTER PARSER (parse_kpis)")
+    print("=" * 60)
+    raw_text = extract_pdf_text(file_path)
+    kpis_llm = parse_kpis(raw_text)
+    print("Extracted KPIs:")
+    for k, v in kpis_llm.items():
+        print(f"  {k}: {v}")
+    
 except Exception as e:
     print(f"Error: {e}")
