@@ -1,6 +1,7 @@
 from __future__ import annotations
+import json
 import re
-from typing import Optional
+from typing import Any, Optional
 
 # Expanded to handle numbers appearing after significant whitespace, including newlines.
 NUMBER_CAPTURE = r"(?:[^\d-]{0,140})([\(\-]?\s*[€$£]?\s*\d[\d.,]*(?:\s*(?:million|mio\.?|mrd\.?|m|billion|bn))?\s*\)?)"
@@ -175,3 +176,134 @@ def _parse_number(raw_value: str) -> Optional[float]:
         return -number if negative else number
     except ValueError:
         return None
+
+
+# ---------------------------------------------------------------------------
+# JSON-based KPI extraction (output of TestScript.py / pdf_tables_to_json)
+# ---------------------------------------------------------------------------
+
+def parse_kpis_from_json(json_input: str | list) -> dict[str, Any]:
+    """Extract structured KPIs from the JSON produced by pdf_tables_to_json.
+
+    Returns a dict with keys: company_name, year, turnover, ebit, ebitda, employees.
+    Values are None when not found.
+    """
+    tables: list[dict] = json.loads(json_input) if isinstance(json_input, str) else json_input
+
+    company_name: Optional[str] = None
+    year: Optional[int] = None
+    turnover: Optional[float] = None
+    ebit: Optional[float] = None
+    ebitda: Optional[float] = None
+    employees: Optional[float] = None
+
+    result_after_taxes: Optional[float] = None
+    taxes: Optional[float] = None
+    interest_expense: Optional[float] = None
+    depreciation: Optional[float] = None
+
+    for table in tables:
+        data: list[dict] = table.get("data", [])
+        if not data:
+            continue
+
+        # --- Company name -------------------------------------------------
+        # Page 10, table 1: the first row has two keys; the one that is NOT
+        # "Firmenname laut Registergericht:" is the company name.
+        if company_name is None:
+            first_row = data[0]
+            keys = list(first_row.keys())
+            name_key = next(
+                (k for k in keys if k != "Firmenname laut Registergericht:"), None
+            )
+            if name_key and "Firmenname laut Registergericht:" in first_row:
+                company_name = name_key
+
+        # --- Year ---------------------------------------------------------
+        # Look for a value matching "Jahresergebnis <YYYY>" pattern
+        if year is None:
+            for row in data:
+                for v in row.values():
+                    if isinstance(v, str):
+                        m = re.search(r"Jahresergebnis\s+(\d{4})", v)
+                        if m:
+                            year = int(m.group(1))
+                            break
+                if year:
+                    break
+
+        # --- Turnover -----------------------------------------------------
+        # Row where Col_0 starts with "1. Umsatzerlöse" (or variant); use Col_2
+        if turnover is None:
+            for row in data:
+                col0 = row.get("Col_0", "") or ""
+                if re.search(r"(?i)umsatzerlöse|umsatzerl[oö]se|1\.\s*umsatz", col0):
+                    raw = row.get("Col_2") or row.get("Geschäftsjahr") or row.get("Col_1")
+                    if raw and isinstance(raw, str) and re.search(r"\d", raw):
+                        turnover = _parse_number(raw)
+                        break
+
+        # --- EBIT / EBITDA components ------------------------------------
+        # EBIT = Ergebnis nach Steuern + Steuern vom Einkommen + Zinsen u. ähnliche Aufwendungen
+        # EBITDA = EBIT + Abschreibungen
+        for idx, row in enumerate(data):
+            col0 = (row.get("Col_0") or "") if isinstance(row, dict) else ""
+            if not isinstance(col0, str):
+                continue
+            raw = row.get("Col_2") or row.get("Geschäftsjahr") or row.get("Col_1")
+            if not isinstance(raw, str) or not re.search(r"\d", raw):
+                parsed_value = None
+            else:
+                parsed_value = _parse_number(raw)
+
+            col0_norm = col0.lower()
+            if result_after_taxes is None and "ergebnis nach steuern" in col0_norm and parsed_value is not None:
+                result_after_taxes = parsed_value
+            elif taxes is None and "steuern vom einkommen" in col0_norm and parsed_value is not None:
+                taxes = parsed_value
+            elif interest_expense is None and "zinsen" in col0_norm and "aufwendungen" in col0_norm and parsed_value is not None:
+                interest_expense = parsed_value
+            elif depreciation is None and "abschreib" in col0_norm:
+                if parsed_value is not None:
+                    depreciation = parsed_value
+                else:
+                    for follow_row in data[idx + 1 : idx + 5]:
+                        next_raw = (
+                            follow_row.get("Col_2")
+                            or follow_row.get("Geschäftsjahr")
+                            or follow_row.get("Col_1")
+                        )
+                        if not isinstance(next_raw, str) or not re.search(r"\d", next_raw):
+                            continue
+                        next_value = _parse_number(next_raw)
+                        if next_value is not None:
+                            depreciation = next_value
+                            break
+
+        # --- Employees ----------------------------------------------------
+        # Table with "Gewerbliche Arbeiter" column; last row (empty label) holds total
+        if employees is None and "Gewerbliche Arbeiter" in (data[0] if data else {}):
+            for row in data:
+                if row.get("Gewerbliche Arbeiter") == "":
+                    # The total is the value of the second key
+                    keys = list(row.keys())
+                    if len(keys) >= 2:
+                        raw = row[keys[1]]
+                        if raw and isinstance(raw, str):
+                            employees = _parse_number(raw)
+                    break
+
+    if ebit is None and result_after_taxes is not None and taxes is not None and interest_expense is not None:
+        ebit = result_after_taxes + taxes + interest_expense
+
+    if ebitda is None and ebit is not None and depreciation is not None:
+        ebitda = ebit + depreciation
+
+    return {
+        "company_name": company_name,
+        "year": year,
+        "turnover": turnover,
+        "ebit": ebit,
+        "ebitda": ebitda,
+        "employees": int(round(employees)) if employees is not None else None,
+    }

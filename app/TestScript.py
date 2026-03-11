@@ -1,5 +1,6 @@
 import pdfplumber
 import json
+from kpi_parser import parse_kpis_from_json
 
 def pdf_tables_to_json(pdf_path):
     all_tables = []
@@ -33,9 +34,17 @@ def pdf_tables_to_json(pdf_path):
 
 # --- Usage ---
 # Replace 'your_report.pdf' with your actual file path
-file_path = "/home/tgk/Downloads/mayer.pdf" 
+file_path = "/home/tgk/Downloads/Weiden i. d. OPf._HRA_2209_11.03.2026.pdf"
+output_path = file_path.replace(".pdf", ".json")
 try:
     json_output = pdf_tables_to_json(file_path)
-    print(json_output)
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(json_output)
+    print(f"Saved to {output_path}")
+
+    kpis = parse_kpis_from_json(json_output)
+    print("Extracted KPIs:")
+    for k, v in kpis.items():
+        print(f"  {k}: {v}")
 except Exception as e:
     print(f"Error: {e}")

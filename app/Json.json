@@ -1,0 +1,1019 @@
+{
+        "page": 10,
+        "table_id": 1,
+        "data": [
+            {
+                "Firmenname laut Registergericht:": "Firmensitz laut Registergericht:",
+                "Ziegler Holzindustrie GmbH & Co. KG": "Pl\u00f6\u00dfberg"
+            },
+            {
+                "Firmenname laut Registergericht:": "Registereintrag:",
+                "Ziegler Holzindustrie GmbH & Co. KG": "Handelsregister"
+            },
+            {
+                "Firmenname laut Registergericht:": "Registergericht:",
+                "Ziegler Holzindustrie GmbH & Co. KG": "Weiden i.d.OPf."
+            },
+            {
+                "Firmenname laut Registergericht:": "Register-Nr.:",
+                "Ziegler Holzindustrie GmbH & Co. KG": "HRA 2209"
+            }
+        ]
+    },
+    {
+        "page": 12,
+        "table_id": 1,
+        "data": [
+            {
+                "Col_0": "I. Immaterielle Verm\u00f6gensgegenst\u00e4nde",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "",
+                "Zug\u00e4nge . EUR": "",
+                "Abg\u00e4nge . EUR": ""
+            },
+            {
+                "Col_0": "1. Selbst geschaffene gewerbliche Schutzrechte und \u00e4hnliche Rechte und Werte",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "858.981,92",
+                "Zug\u00e4nge . EUR": "0,00",
+                "Abg\u00e4nge . EUR": "0,00"
+            },
+            {
+                "Col_0": "2. entgeltlich erworbene Konzessionen, gewerbliche Schutzrechte und \u00e4hnliche Rechte und Werte sowie Lizenzen an solchen Rechten und Werten",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "1.599.027,46",
+                "Zug\u00e4nge . EUR": "118.494,67",
+                "Abg\u00e4nge . EUR": "0,00"
+            },
+            {
+                "Col_0": "Immaterielle Verm\u00f6gensgegenst\u00e4nde",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "2.458.009,38",
+                "Zug\u00e4nge . EUR": "118.494,67",
+                "Abg\u00e4nge . EUR": "0,00"
+            },
+            {
+                "Col_0": "II. Sachanlagen",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "",
+                "Zug\u00e4nge . EUR": "",
+                "Abg\u00e4nge . EUR": ""
+            },
+            {
+                "Col_0": "1. Grundst\u00fccke, grundst\u00fccksgleiche Rechte und Bauten einschlie\u00dflich der Bauten auf fremden Grundst\u00fccken",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "37.760.063,27",
+                "Zug\u00e4nge . EUR": "2.392.446,36",
+                "Abg\u00e4nge . EUR": "0,00"
+            },
+            {
+                "Col_0": "2. technische Anlagen und Maschinen",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "71.117.247,99",
+                "Zug\u00e4nge . EUR": "2.864.809,93",
+                "Abg\u00e4nge . EUR": "1.863.110,76"
+            },
+            {
+                "Col_0": "3. andere Anlagen, Betriebs- und Gesch\u00e4ftsausstattung",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "9.980.048,24",
+                "Zug\u00e4nge . EUR": "2.117.529,37",
+                "Abg\u00e4nge . EUR": "747.578,90"
+            },
+            {
+                "Col_0": "4. geleistete Anzahlungen und Anlagen im Bau",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "4.132.672,55",
+                "Zug\u00e4nge . EUR": "3.381.744,26",
+                "Abg\u00e4nge . EUR": "95.101,72"
+            },
+            {
+                "Col_0": "Sachanlagen",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "122.990.032,05",
+                "Zug\u00e4nge . EUR": "10.756.529,92",
+                "Abg\u00e4nge . EUR": "2.705.791,38"
+            },
+            {
+                "Col_0": "III. Finanzanlagen",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "",
+                "Zug\u00e4nge . EUR": "",
+                "Abg\u00e4nge . EUR": ""
+            },
+            {
+                "Col_0": "1. Anteile an verbundenen Unternehmen",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "0,00",
+                "Zug\u00e4nge . EUR": "25.000,00",
+                "Abg\u00e4nge . EUR": "0,00"
+            },
+            {
+                "Col_0": "2. Beteiligungen",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "4.900,00",
+                "Zug\u00e4nge . EUR": "0,00",
+                "Abg\u00e4nge . EUR": "0,00"
+            },
+            {
+                "Col_0": "3. sonstige Ausleihungen",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "11.350.000,00",
+                "Zug\u00e4nge . EUR": "0,00",
+                "Abg\u00e4nge . EUR": "0,00"
+            },
+            {
+                "Col_0": "Finanzanlagen",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "11.354.900,00",
+                "Zug\u00e4nge . EUR": "25.000,00",
+                "Abg\u00e4nge . EUR": "0,00"
+            },
+            {
+                "Col_0": "",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "136.802.941,43",
+                "Zug\u00e4nge . EUR": "10.900.024,59",
+                "Abg\u00e4nge . EUR": "2.705.791,38"
+            },
+            {
+                "Col_0": "",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "None",
+                "Zug\u00e4nge . EUR": "Umbuchungen . EUR",
+                "Abg\u00e4nge . EUR": "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR"
+            },
+            {
+                "Col_0": "I. Immaterielle Verm\u00f6gensgegenst\u00e4nde",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "None",
+                "Zug\u00e4nge . EUR": "",
+                "Abg\u00e4nge . EUR": ""
+            },
+            {
+                "Col_0": "1. Selbst geschaffene gewerbliche Schutzrechte und \u00e4hnliche Rechte und Werte",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "None",
+                "Zug\u00e4nge . EUR": "0,00",
+                "Abg\u00e4nge . EUR": "858.981,92"
+            },
+            {
+                "Col_0": "2. entgeltlich erworbene Konzessionen, gewerbliche Schutzrechte und \u00e4hnliche Rechte und Werte sowie Lizenzen an solchen Rechten und Werten",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "None",
+                "Zug\u00e4nge . EUR": "0,00",
+                "Abg\u00e4nge . EUR": "1.717.522,13"
+            },
+            {
+                "Col_0": "Immaterielle Verm\u00f6gensgegenst\u00e4nde",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "None",
+                "Zug\u00e4nge . EUR": "0,00",
+                "Abg\u00e4nge . EUR": "2.576.504,05"
+            },
+            {
+                "Col_0": "II. Sachanlagen",
+                "Anschaffungs- Herstellungskosten 01.01.2022 . EUR": "None",
+                "Zug\u00e4nge . EUR": "",
+                "Abg\u00e4nge . EUR": ""
+            }
+        ]
+    },
+    {
+        "page": 13,
+        "table_id": 1,
+        "data": [
+            {
+                "Col_0": "1. Grundst\u00fccke, grundst\u00fccksgleiche Rechte und Bauten einschlie\u00dflich der Bauten auf fremden Grundst\u00fccken",
+                "Col_1": "None",
+                "Col_2": "None",
+                "Col_3": "None",
+                "Umbuchungen . EUR": "0,00",
+                "Col_5": "None",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "40.152.509,63"
+            },
+            {
+                "Col_0": "2. technische Anlagen und Maschinen",
+                "Col_1": "None",
+                "Col_2": "None",
+                "Col_3": "None",
+                "Umbuchungen . EUR": "265.424,94",
+                "Col_5": "None",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "72.384.372,10"
+            },
+            {
+                "Col_0": "3. andere Anlagen, Betriebs- und Gesch\u00e4ftsausstattung",
+                "Col_1": "None",
+                "Col_2": "None",
+                "Col_3": "None",
+                "Umbuchungen . EUR": "7.515,26",
+                "Col_5": "None",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "11.357.513,97"
+            },
+            {
+                "Col_0": "4. geleistete Anzahlungen und Anlagen im Bau",
+                "Col_1": "None",
+                "Col_2": "None",
+                "Col_3": "None",
+                "Umbuchungen . EUR": "-272.940,20",
+                "Col_5": "None",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "7.146.374,89"
+            },
+            {
+                "Col_0": "Sachanlagen",
+                "Col_1": "None",
+                "Col_2": "None",
+                "Col_3": "None",
+                "Umbuchungen . EUR": "0,00",
+                "Col_5": "None",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "131.040.770,59"
+            },
+            {
+                "Col_0": "III. Finanzanlagen",
+                "Col_1": "None",
+                "Col_2": "None",
+                "Col_3": "None",
+                "Umbuchungen . EUR": "",
+                "Col_5": "None",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": ""
+            },
+            {
+                "Col_0": "1. Anteile an verbundenen Unternehmen",
+                "Col_1": "None",
+                "Col_2": "None",
+                "Col_3": "None",
+                "Umbuchungen . EUR": "0,00",
+                "Col_5": "None",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "25.000,00"
+            },
+            {
+                "Col_0": "2. Beteiligungen",
+                "Col_1": "None",
+                "Col_2": "None",
+                "Col_3": "None",
+                "Umbuchungen . EUR": "0,00",
+                "Col_5": "None",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "4.900,00"
+            },
+            {
+                "Col_0": "3. sonstige Ausleihungen",
+                "Col_1": "None",
+                "Col_2": "None",
+                "Col_3": "None",
+                "Umbuchungen . EUR": "0,00",
+                "Col_5": "None",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "11.350.000,00"
+            },
+            {
+                "Col_0": "Finanzanlagen",
+                "Col_1": "None",
+                "Col_2": "None",
+                "Col_3": "None",
+                "Umbuchungen . EUR": "0,00",
+                "Col_5": "None",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "11.379.900,00"
+            },
+            {
+                "Col_0": "",
+                "Col_1": "None",
+                "Col_2": "None",
+                "Col_3": "None",
+                "Umbuchungen . EUR": "0,00",
+                "Col_5": "None",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "144.997.174,64"
+            },
+            {
+                "Col_0": "",
+                "Col_1": "kumulierte Abschreibungen 01.01.2022 . EUR",
+                "Col_2": "Abschreibungen Gesch\u00e4ftsjahr . EUR",
+                "Col_3": "Abg\u00e4nge . EUR",
+                "Umbuchungen . EUR": "None",
+                "Col_5": "kumulierte Abschreibungen 31.12.2022 . EUR",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "I. Immaterielle Verm\u00f6gensgegenst\u00e4nde",
+                "Col_1": "",
+                "Col_2": "",
+                "Col_3": "",
+                "Umbuchungen . EUR": "None",
+                "Col_5": "",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "1. Selbst geschaffene gewerbliche Schutz- rechte und \u00e4hnliche Rechte und Werte",
+                "Col_1": "791.979,92",
+                "Col_2": "20.616,00",
+                "Col_3": "0,00",
+                "Umbuchungen . EUR": "None",
+                "Col_5": "812.595,92",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "2. entgeltlich erworbene Konzessionen, ge- werbliche Schutzrechte und \u00e4hnliche Rechte und Werte sowie Lizenzen an solchen Rech- ten und Werten",
+                "Col_1": "1.410.842,86",
+                "Col_2": "101.168,67",
+                "Col_3": "0,00",
+                "Umbuchungen . EUR": "None",
+                "Col_5": "1.512.011,53",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "Immaterielle Verm\u00f6gensgegenst\u00e4nde",
+                "Col_1": "2.202.822,78",
+                "Col_2": "121.784,67",
+                "Col_3": "0,00",
+                "Umbuchungen . EUR": "None",
+                "Col_5": "2.324.607,45",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "II. Sachanlagen",
+                "Col_1": "",
+                "Col_2": "",
+                "Col_3": "",
+                "Umbuchungen . EUR": "None",
+                "Col_5": "",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "1. Grundst\u00fccke, grundst\u00fccksgleiche Rech- te und Bauten einschlie\u00dflich der Bauten auf fremden Grundst\u00fccken",
+                "Col_1": "",
+                "Col_2": "",
+                "Col_3": "",
+                "Umbuchungen . EUR": "None",
+                "Col_5": "",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "",
+                "Col_1": "16.342.631,85",
+                "Col_2": "1.048.681,89",
+                "Col_3": "0,00",
+                "Umbuchungen . EUR": "None",
+                "Col_5": "17.391.313,74",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "2. technische Anlagen und Maschinen",
+                "Col_1": "57.465.362,07",
+                "Col_2": "2.030.056,73",
+                "Col_3": "1.183.890,70",
+                "Umbuchungen . EUR": "None",
+                "Col_5": "58.311.528,10",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "3. andere Anlagen, Betriebs- und Gesch\u00e4fts- ausstattung",
+                "Col_1": "6.623.806,73",
+                "Col_2": "1.350.059,63",
+                "Col_3": "672.046,60",
+                "Umbuchungen . EUR": "None",
+                "Col_5": "7.301.819,76",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "4. geleistete Anzahlungen und Anlagen im Bau",
+                "Col_1": "0,00",
+                "Col_2": "0,00",
+                "Col_3": "0,00",
+                "Umbuchungen . EUR": "None",
+                "Col_5": "0,00",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "Sachanlagen",
+                "Col_1": "80.431.800,65",
+                "Col_2": "4.428.798,25",
+                "Col_3": "1.855.937,30",
+                "Umbuchungen . EUR": "None",
+                "Col_5": "83.004.661,60",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "III. Finanzanlagen",
+                "Col_1": "",
+                "Col_2": "",
+                "Col_3": "",
+                "Umbuchungen . EUR": "None",
+                "Col_5": "",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "1. Anteile an verbundenen Unternehmen",
+                "Col_1": "0,00",
+                "Col_2": "0,00",
+                "Col_3": "0,00",
+                "Umbuchungen . EUR": "None",
+                "Col_5": "0,00",
+                "Anschaffungs- Herstellungskos- ten 31.12.2022 . EUR": "None"
+            }
+        ]
+    },
+    {
+        "page": 14,
+        "table_id": 1,
+        "data": [
+            {
+                "Col_0": "2. Beteiligungen",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "0,00",
+                "Col_2": "None",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "0,00",
+                "Abg\u00e4nge . EUR": "0,00",
+                "Col_5": "None",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "0,00"
+            },
+            {
+                "Col_0": "3. sonstige Ausleihungen",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "0,00",
+                "Col_2": "None",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "0,00",
+                "Abg\u00e4nge . EUR": "0,00",
+                "Col_5": "None",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "0,00"
+            },
+            {
+                "Col_0": "Finanzanlagen",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "0,00",
+                "Col_2": "None",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "0,00",
+                "Abg\u00e4nge . EUR": "0,00",
+                "Col_5": "None",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "0,00"
+            },
+            {
+                "Col_0": "",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "82.634.623,43",
+                "Col_2": "None",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "4.550.582,92",
+                "Abg\u00e4nge . EUR": "1.855.937,30",
+                "Col_5": "None",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "85.329.269,05"
+            },
+            {
+                "Col_0": "",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "Buchwert 31.12.2022 . EUR",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "Buchwert 31.12.2021 . EUR",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "I. Immaterielle Verm\u00f6gensgegenst\u00e4nde",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "1. Selbst geschaffene gewerbliche Schutzrechte und \u00e4hnliche Rechte und Werte",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "46.386,00",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "67.002,00",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "2. entgeltlich erworbene Konzessionen, gewerbliche Schutzrechte und \u00e4hnli- che Rechte und Werte sowie Lizenzen an solchen Rechten und Werten",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "205.510,60",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "188.184,60",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "Immaterielle Verm\u00f6gensgegenst\u00e4nde",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "251.896,60",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "255.186,60",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "II. Sachanlagen",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "1. Grundst\u00fccke, grundst\u00fccksgleiche Rechte und Bauten einschlie\u00dflich der Bauten auf fremden Grundst\u00fccken",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "22.761.195,89",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "21.417.431,42",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "2. technische Anlagen und Maschinen",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "14.072.844,00",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "13.651.884,92",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "3. andere Anlagen, Betriebs- und Gesch\u00e4ftsausstattung",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "4.055.694,21",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "3.356.241,51",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "4. geleistete Anzahlungen und Anlagen im Bau",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "7.146.374,89",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "4.132.672,55",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "Sachanlagen",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "48.036.108,99",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "42.558.230,40",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "III. Finanzanlagen",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "1. Anteile an verbundenen Unternehmen",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "25.000,00",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "0,00",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "2. Beteiligungen",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "4.900,00",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "4.900,00",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "3. sonstige Ausleihungen",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "11.350.000,00",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "11.350.000,00",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "Finanzanlagen",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "11.379.900,00",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "11.354.900,00",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            },
+            {
+                "Col_0": "",
+                "kumulierte Abschreibungen 01.01.2022 . EUR": "None",
+                "Col_2": "59.667.905,59",
+                "Abschreibungen Gesch\u00e4ftsjahr . EUR": "None",
+                "Abg\u00e4nge . EUR": "None",
+                "Col_5": "54.168.317,00",
+                "kumulierte Abschreibungen 31.12.2022 . EUR": "None"
+            }
+        ]
+    },
+    {
+        "page": 14,
+        "table_id": 2,
+        "data": [
+            {
+                "Col_0": "Forderungen aus Lieferungen und Leistungen",
+                "31.12.2022 . EUR": "38.392.184,38",
+                "bis zu 1 Jahr . EUR": "38.392.184,38",
+                "davon Restlaufzeit mehr als 1 Jahr . EUR": "0,00"
+            },
+            {
+                "Col_0": "",
+                "31.12.2022 . EUR": "(31.510.490,57)",
+                "bis zu 1 Jahr . EUR": "(31.510.490,57)",
+                "davon Restlaufzeit mehr als 1 Jahr . EUR": "(0,00)"
+            }
+        ]
+    },
+    {
+        "page": 15,
+        "table_id": 1,
+        "data": [
+            {
+                "Col_0": "Sonstige Verm\u00f6gensgegenst\u00e4nde",
+                "31.12.2022 . EUR": "18.307.684,07",
+                "bis zu 1 Jahr . EUR": "18.307.684,07",
+                "davon Restlaufzeit mehr als 1 Jahr . EUR": "0,00"
+            },
+            {
+                "Col_0": "",
+                "31.12.2022 . EUR": "(8.710.699,17)",
+                "bis zu 1 Jahr . EUR": "(8.674.699,17)",
+                "davon Restlaufzeit mehr als 1 Jahr . EUR": "(36.000,00)"
+            },
+            {
+                "Col_0": "",
+                "31.12.2022 . EUR": "56.699.868,45",
+                "bis zu 1 Jahr . EUR": "56.699.868,45",
+                "davon Restlaufzeit mehr als 1 Jahr . EUR": "0,00"
+            },
+            {
+                "Col_0": "",
+                "31.12.2022 . EUR": "(40.221.189,74)",
+                "bis zu 1 Jahr . EUR": "(40.185.189,74)",
+                "davon Restlaufzeit mehr als 1 Jahr . EUR": "(36.000,00)"
+            }
+        ]
+    },
+    {
+        "page": 15,
+        "table_id": 2,
+        "data": [
+            {
+                "Col_0": "aktive latente Steuern",
+                "Stand 01.01.2022 . EUR": "27.451,00",
+                "Ver\u00e4nderung . EUR": "113.260,00",
+                "Stand 31.12.2022 . EUR": "140.711,00"
+            },
+            {
+                "Col_0": "passive latente Steuern",
+                "Stand 01.01.2022 . EUR": "-48.180,00",
+                "Ver\u00e4nderung . EUR": "12.686,00",
+                "Stand 31.12.2022 . EUR": "-35.494,00"
+            },
+            {
+                "Col_0": "Saldierter Bilanzausweis",
+                "Stand 01.01.2022 . EUR": "-20.729,00",
+                "Ver\u00e4nderung . EUR": "125.946,00",
+                "Stand 31.12.2022 . EUR": "105.217,00"
+            }
+        ]
+    },
+    {
+        "page": 15,
+        "table_id": 3,
+        "data": [
+            {
+                "Col_0": "Aufbewahrung/Archivierung",
+                "TEUR": "32,3"
+            },
+            {
+                "Col_0": "Ausstehende Rechnungen",
+                "TEUR": "1.685,7"
+            },
+            {
+                "Col_0": "IHK-Beitrag",
+                "TEUR": "201,6"
+            },
+            {
+                "Col_0": "Zinsr\u00fcckstellung",
+                "TEUR": "790,0"
+            },
+            {
+                "Col_0": "Anspr\u00fcche Personal",
+                "TEUR": "12,1"
+            },
+            {
+                "Col_0": "Berufsgenossenschaft",
+                "TEUR": "201,1"
+            },
+            {
+                "Col_0": "Versicherungsbeitr\u00e4ge",
+                "TEUR": "534,5"
+            }
+        ]
+    },
+    {
+        "page": 16,
+        "table_id": 1,
+        "data": [
+            {
+                "Col_0": "Jahresabschluss- und Pr\u00fcfungskosten",
+                "TEUR": "176,5"
+            },
+            {
+                "Col_0": "Bonus",
+                "TEUR": "87,2"
+            },
+            {
+                "Col_0": "Verzinsung Beteiligungen",
+                "TEUR": "120,0"
+            }
+        ]
+    },
+    {
+        "page": 16,
+        "table_id": 2,
+        "data": [
+            {
+                "Col_0": "",
+                "Col_1": "31.12.2022 . EUR",
+                "davon Restlaufzeit": "bis zu 1 Jahr . EUR",
+                "Col_3": "mehr als 1 Jahr . EUR",
+                "Col_4": "mehr als 5 Jahre . EUR"
+            },
+            {
+                "Col_0": "Verbindlichkeiten gegen\u00fcber Kreditinstituten",
+                "Col_1": "3.231.468,74",
+                "davon Restlaufzeit": "245.068,74",
+                "Col_3": "2.986.400,00",
+                "Col_4": "0,00"
+            },
+            {
+                "Col_0": "",
+                "Col_1": "(6.786.464,74)",
+                "davon Restlaufzeit": "(3.310.464,74)",
+                "Col_3": "(3.476.000,00)",
+                "Col_4": "(0,00)"
+            },
+            {
+                "Col_0": "Verbindlichkeiten aus Lieferungen und Leistungen",
+                "Col_1": "20.710.856,86",
+                "davon Restlaufzeit": "20.710.856,86",
+                "Col_3": "0,00",
+                "Col_4": "0,00"
+            },
+            {
+                "Col_0": "",
+                "Col_1": "(20.086.189,86)",
+                "davon Restlaufzeit": "(20.086.189,86)",
+                "Col_3": "(0,00)",
+                "Col_4": "(0,00)"
+            },
+            {
+                "Col_0": "Sonstige Verbindlichkeiten",
+                "Col_1": "2.408.557,89",
+                "davon Restlaufzeit": "2.408.557,89",
+                "Col_3": "0,00",
+                "Col_4": "0,00"
+            },
+            {
+                "Col_0": "",
+                "Col_1": "(1.985.681,97)",
+                "davon Restlaufzeit": "(1.985.681,97)",
+                "Col_3": "(0,00)",
+                "Col_4": "(0,00)"
+            },
+            {
+                "Col_0": "(davon aus Steuern)",
+                "Col_1": "162.933,12",
+                "davon Restlaufzeit": "162.933,12",
+                "Col_3": "0,00",
+                "Col_4": "0,00"
+            },
+            {
+                "Col_0": "",
+                "Col_1": "(182.723,11)",
+                "davon Restlaufzeit": "(182.723,11)",
+                "Col_3": "(0,00)",
+                "Col_4": "(0,00)"
+            },
+            {
+                "Col_0": "(davon im Rahmen der sozialen Sicherheit)",
+                "Col_1": "121.942,19",
+                "davon Restlaufzeit": "121.942,19",
+                "Col_3": "0,00",
+                "Col_4": "0,00"
+            },
+            {
+                "Col_0": "",
+                "Col_1": "(165.298,06)",
+                "davon Restlaufzeit": "(165.298,06)",
+                "Col_3": "(0,00)",
+                "Col_4": "(0,00)"
+            },
+            {
+                "Col_0": "",
+                "Col_1": "26.350.883,49",
+                "davon Restlaufzeit": "23.364.483,49",
+                "Col_3": "2.986.400,00",
+                "Col_4": "0,00"
+            },
+            {
+                "Col_0": "",
+                "Col_1": "(28.858.336,57)",
+                "davon Restlaufzeit": "(25.382.336,57)",
+                "Col_3": "(3.476.000,00)",
+                "Col_4": "(0,00)"
+            }
+        ]
+    },
+    {
+        "page": 17,
+        "table_id": 1,
+        "data": [
+            {
+                "Col_0": "- f\u00e4llig innerhalb eines Jahres",
+                "EUR": "13.450.033,98",
+                "davon Ziegler Gruppe . EUR": "0,00 \u20ac"
+            },
+            {
+                "Col_0": "- f\u00e4llig zwischen einem und f\u00fcnf Jahren",
+                "EUR": "30.873.310,62",
+                "davon Ziegler Gruppe . EUR": "0,00 \u20ac"
+            },
+            {
+                "Col_0": "- f\u00e4llig nach f\u00fcnf Jahren bis Laufzeitende",
+                "EUR": "11.160.369,04",
+                "davon Ziegler Gruppe . EUR": "0,00 \u20ac"
+            },
+            {
+                "Col_0": "",
+                "EUR": "55.483.713,64",
+                "davon Ziegler Gruppe . EUR": "0,00 \u20ac"
+            }
+        ]
+    },
+    {
+        "page": 17,
+        "table_id": 2,
+        "data": [
+            {
+                "Col_0": "- f\u00e4llig innerhalb eines Jahres",
+                "EUR": "2.475.395,00 \u20ac",
+                "davon Ziegler Gruppe . EUR": "2.411.532,00 \u20ac"
+            },
+            {
+                "Col_0": "- f\u00e4llig zwischen einem und f\u00fcnf Jahren",
+                "EUR": "4.317.528,00 \u20ac",
+                "davon Ziegler Gruppe . EUR": "3.834.672,00 \u20ac"
+            }
+        ]
+    },
+    {
+        "page": 18,
+        "table_id": 1,
+        "data": [
+            {
+                "Col_0": "- f\u00e4llig nach f\u00fcnf Jahren bis Laufzeitende",
+                "EUR": "17.679.350,00 \u20ac",
+                "davon Ziegler Gruppe . EUR": "17.550.000,00 \u20ac"
+            },
+            {
+                "Col_0": "",
+                "EUR": "24.472.273,00 \u20ac",
+                "davon Ziegler Gruppe . EUR": "23.796.204,00 \u20ac"
+            }
+        ]
+    },
+    {
+        "page": 18,
+        "table_id": 2,
+        "data": [
+            {
+                "Produktgruppe": "Schnittholz",
+                "Inland . TEUR": "94.302,1",
+                "Europa . TEUR": "40.296,5",
+                "Drittland . TEUR": "245.913,8",
+                "Summe . TEUR": "380.512,4"
+            },
+            {
+                "Produktgruppe": "Restholz",
+                "Inland . TEUR": "74.786,8",
+                "Europa . TEUR": "2,6",
+                "Drittland . TEUR": "0,0",
+                "Summe . TEUR": "74.789,4"
+            },
+            {
+                "Produktgruppe": "Stromeinspeisung",
+                "Inland . TEUR": "2.775,7",
+                "Europa . TEUR": "0,0",
+                "Drittland . TEUR": "0,0",
+                "Summe . TEUR": "2.775,7"
+            },
+            {
+                "Produktgruppe": "Sachanlagen Leasing",
+                "Inland . TEUR": "16.668,1",
+                "Europa . TEUR": "0,0",
+                "Drittland . TEUR": "0,0",
+                "Summe . TEUR": "16.668,1"
+            },
+            {
+                "Produktgruppe": "General\u00fcbernehmer",
+                "Inland . TEUR": "7.770,0",
+                "Europa . TEUR": "0,0",
+                "Drittland . TEUR": "0,0",
+                "Summe . TEUR": "7.770,0"
+            },
+            {
+                "Produktgruppe": "Mietertr\u00e4ge",
+                "Inland . TEUR": "585,8",
+                "Europa . TEUR": "0,0",
+                "Drittland . TEUR": "0,0",
+                "Summe . TEUR": "585,8"
+            },
+            {
+                "Produktgruppe": "Sonstige Erl\u00f6se",
+                "Inland . TEUR": "2.184,4",
+                "Europa . TEUR": "141,4",
+                "Drittland . TEUR": "0,0",
+                "Summe . TEUR": "2.325,8"
+            },
+            {
+                "Produktgruppe": "Erl\u00f6sschm\u00e4lerungen",
+                "Inland . TEUR": "-4.589,1",
+                "Europa . TEUR": "-532,6",
+                "Drittland . TEUR": "-651,6",
+                "Summe . TEUR": "-5.773,3"
+            },
+            {
+                "Produktgruppe": "",
+                "Inland . TEUR": "194.483,8",
+                "Europa . TEUR": "39.907,9",
+                "Drittland . TEUR": "245.262,2",
+                "Summe . TEUR": "479.653,9"
+            }
+        ]
+    },
+    {
+        "page": 19,
+        "table_id": 1,
+        "data": [
+            {
+                "Col_0": "Umsatzerl\u00f6se aus dem Weiterverkauf an Leasinggesellschaft",
+                "TEUR": "16.668,1"
+            },
+            {
+                "Col_0": "Materialeinsatz f\u00fcr den Weiterverkauf an Leasinggesellschaft",
+                "TEUR": "16.668,1"
+            },
+            {
+                "Col_0": "Umsatzerl\u00f6se aus Bautr\u00e4ger",
+                "TEUR": "7.770,0"
+            },
+            {
+                "Col_0": "Materialeinsatz f\u00fcr Bautr\u00e4ger",
+                "TEUR": "7.770,0"
+            },
+            {
+                "Col_0": "Aufwand aus Ergebnisabf\u00fchrung an den stillen Gesellschafter BayBG",
+                "TEUR": "878,0"
+            }
+        ]
+    },
+    {
+        "page": 19,
+        "table_id": 2,
+        "data": [
+            {
+                "Gewerbliche Arbeiter": "Kaufm\u00e4nnische Angestellte",
+                "589,50": "34,00"
+            },
+            {
+                "Gewerbliche Arbeiter": "Geringf\u00fcgig Besch\u00e4ftigte",
+                "589,50": "12,75"
+            },
+            {
+                "Gewerbliche Arbeiter": "Teilzeitkr\u00e4fte",
+                "589,50": "15,75"
+            },
+            {
+                "Gewerbliche Arbeiter": "Duales Studium",
+                "589,50": "1,00"
+            },
+            {
+                "Gewerbliche Arbeiter": "",
+                "589,50": "653,00"
+            }
+        ]
+    },
+    {
+        "page": 19,
+        "table_id": 3,
+        "data": [
+            {
+                "Name": "Sitz",
+                "FILONA GmbH & Co. KG": "Pullach"
+            }
+        ]
+    },
+    {
+        "page": 20,
+        "table_id": 1,
+        "data": [
+            {
+                "Anteilsh\u00f6he in %": "Jahresergebnis 2022 in Euro",
+                "49,0": "1)"
+            },
+            {
+                "Anteilsh\u00f6he in %": "Eigenkapital zum 31.12.2022",
+                "49,0": "EUR -545.272,63"
+            }
+        ]
+    }

@@ -49,6 +49,44 @@ def _supplier_name_from_filename(filename: str) -> Optional[str]:
     stem = Path(filename).stem.replace("_", " ").replace("-", " ").strip()
     return _clean_supplier_name(stem.title()) if stem else None
 
+
+def pdf_tables_to_json(pdf_bytes: bytes) -> str:
+    """Extract all tables from a PDF (supplied as raw bytes) and return them as
+    a JSON string in the format produced by TestScript.py.
+
+    Each element of the returned array has the shape::
+
+        {"page": <int>, "table_id": <int>, "data": [{...}, ...]}
+    """
+    import json
+    all_tables: list[dict] = []
+    try:
+        with pdfplumber.open(BytesIO(pdf_bytes)) as pdf:
+            for page_num, page in enumerate(pdf.pages, start=1):
+                tables = page.extract_tables()
+                for table_index, table in enumerate(tables):
+                    if len(table) > 1:
+                        headers = [
+                            str(h).replace("\n", " ") if h else f"Col_{i}"
+                            for i, h in enumerate(table[0])
+                        ]
+                        rows = table[1:]
+                        table_data = [
+                            {
+                                headers[i]: (
+                                    str(row[i]).replace("\n", " ") if i < len(row) else None
+                                )
+                                for i in range(len(headers))
+                            }
+                            for row in rows
+                        ]
+                        all_tables.append(
+                            {"page": page_num, "table_id": table_index + 1, "data": table_data}
+                        )
+    except Exception as exc:
+        raise ValueError("Could not read the uploaded PDF.") from exc
+    return json.dumps(all_tables, indent=4, ensure_ascii=False)
+
 def _clean_supplier_name(value: str) -> Optional[str]:
     cleaned = re.sub(r"\s+", " ", value).strip(" :\t\r\n")
     return cleaned[:255] if cleaned else None
