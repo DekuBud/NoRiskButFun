@@ -1,4 +1,4 @@
-#!/home/flo/projects/NoRiskButFun/.venv/bin/python3
+#!/home/tgk/Downloads/NoRiskButFun/.venv/bin/python3
 """Extract pdf structure in XML format"""
 
 import logging
