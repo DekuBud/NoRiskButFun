@@ -71,6 +71,41 @@ def upload_supplier_pdf(file: UploadFile = File(...), db: Session = Depends(get_
         raise HTTPException(status_code=422, detail="Could not identify the reporting year.")
 
     kpis = parse_kpis(raw_text)
+    # Pflichtfelder Prüfen
+    """
+    if not kpis.get("netprofit"):
+        raise HTTPException(status_code=422, detail="Could not identify the net-profit.")
+    if not kpis.get("depreciation"):
+        raise HTTPException(status_code=422, detail="Could not identify the deprecation.")
+    if not kpis.get("equity"):
+        raise HTTPException(status_code=422, detail="Could not identify the equity.")
+    if not kpis.get("totalCapital"):
+        raise HTTPException(status_code=422, detail="Could not identify the total-capital.")
+    if not kpis.get("interestExpense"):
+        raise HTTPException(status_code=422, detail="Could not identify the interest-expense.")
+    if not kpis.get("revenue"):
+        raise HTTPException(status_code=422, detail="Could not identify the revenue.")
+
+    result = calculate_quick_score(
+        _to_optional_float(kpis.get("netprofit")),
+        _to_optional_float(kpis.get("depreciation")),
+        _to_optional_float(kpis.get("provisionsForSeverancePaymentsCurrent")),
+        _to_optional_float(kpis.get("provisionsForSeverancePaymentsPast")),
+        _to_optional_float(kpis.get("provisionsForPensionCurrent")),
+        _to_optional_float(kpis.get("provisionsForPensionPast")),
+        _to_optional_float(kpis.get("bookValueOfDisposedAssets")),
+        _to_optional_float(kpis.get("equity")),
+        _to_optional_float(kpis.get("totalCapital")),
+        _to_optional_float(kpis.get("cash")),
+        _to_optional_float(kpis.get("stocks")),
+        _to_optional_float(kpis.get("egt")),
+        _to_optional_float(kpis.get("interestExpense")),
+        _to_optional_float(kpis.get("revenue")),
+        _to_optional_float(kpis.get("changeInInvertory")),
+        _to_optional_float(kpis.get("capitalizedOwnWork"))
+    )
+    """
+
     quick_score = calculate_quick_score(
         turnover=_to_optional_float(kpis.get("turnover")),
         ebit=_to_optional_float(kpis.get("ebit")),
