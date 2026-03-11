@@ -77,3 +77,7 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 cp -n .env.example .env
 python -m uvicorn app.main:app --reload
+
+# create random data for demo (change supplier id and year!):
+.venv/bin/python -m scripts.seed_supplier_demo_data --supplier-id 1 --year 2020
+
