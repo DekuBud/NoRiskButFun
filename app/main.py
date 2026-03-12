@@ -116,7 +116,7 @@ def upload_supplier_pdf(
 
     kpis = parse_kpis(raw_text)
     # Pflichtfelder Prüfen
-    """
+
     if not kpis.get("netprofit"):
         raise HTTPException(status_code=422, detail="Could not identify the net-profit.")
     if not kpis.get("depreciation"):
@@ -148,7 +148,7 @@ def upload_supplier_pdf(
         _to_optional_float(kpis.get("changeInInvertory")),
         _to_optional_float(kpis.get("capitalizedOwnWork"))
     )
-    """
+
 
     quick_score = calculate_quick_score(
         turnover=_to_optional_float(kpis.get("turnover")),
@@ -205,10 +205,17 @@ def upload_supplier_pdf_tables(
     if not pdf_bytes:
         raise HTTPException(status_code=400, detail="The uploaded PDF is empty.")
 
-    tables_json = pdf_tables_to_json(pdf_bytes)
-    kpis = parse_kpis_from_json(tables_json)
+    # tables_json = pdf_tables_to_json(pdf_bytes)
+    # kpis = parse_kpis_from_json(tables_json)
 
-    company_name: str = kpis.get("company_name") or (file.filename or "Unknown Supplier")
+    raw_text = extract_text_from_pdf_bytes(pdf_bytes)
+    tables_json = pdf_tables_to_json(pdf_bytes)
+
+    # The parser now uses text as a fallback to identify the year
+    # kpis = parse_kpis_from_json(tables_json, raw_text=raw_text)
+    kpis = parse_kpis(raw_text)
+
+    company_name: str = kpis.get("name") or (file.filename or "Unknown Supplier")
     reporting_year: Optional[int] = kpis.get("year")
     if reporting_year is None:
         raise HTTPException(status_code=422, detail="Could not identify the reporting year from the PDF tables.")
@@ -217,12 +224,13 @@ def upload_supplier_pdf_tables(
     ebit = _to_optional_float(kpis.get("ebit"))
     ebitda = _to_optional_float(kpis.get("ebitda"))
     employees = _to_optional_int(kpis.get("employees"))
+    investments = _to_optional_float(kpis.get("investments"))
     quick_score = calculate_quick_score(
         turnover=turnover,
         ebit=ebit,
         ebitda=ebitda,
         employees=employees,
-        investments=None,
+        investments=investments,
     )
 
     try:
@@ -236,7 +244,7 @@ def upload_supplier_pdf_tables(
             ebit=ebit,
             ebitda=ebitda,
             employees=employees,
-            investments=None,
+            investments=investments,
             quick_score=quick_score,
         )
         db.commit()
@@ -258,6 +266,7 @@ def upload_supplier_pdf_tables(
                 "ebit": ebit,
                 "ebitda": ebitda,
                 "employees": employees,
+                "investments": investments,
             },
             "quick_score": quick_score,
         },

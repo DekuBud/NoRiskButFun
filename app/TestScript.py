@@ -8,7 +8,7 @@ project_root = Path(__file__).resolve().parents[1]
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
-from docs.LLmFilter import parse_kpis
+from docs.LLmFilter import parse_kpis, parse_kpis_with_gemini
 
 def pdf_tables_to_json(pdf_path):
     all_tables = []
@@ -50,10 +50,10 @@ def extract_pdf_text(pdf_path):
 
 # --- Usage ---
 # Replace 'your_report.pdf' with your actual file path
-file_path = "/home/tgk/Downloads/Weiden i. d. OPf._HRA_2209_11.03.2026.pdf"
-output_path = file_path.replace(".pdf", ".json")
+file_path = "/home/tgk/Downloads/Weiden i. d. OPf._HRA_2209_11.03.2026-3.pdf"
+#output_path = file_path.replace(".pdf", ".json")
 try:
-    json_output = pdf_tables_to_json(file_path)
+    '''json_output = pdf_tables_to_json(file_path)
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(json_output)
     print(f"Saved to {output_path}")
@@ -67,7 +67,7 @@ try:
     print("Extracted KPIs:")
     for k, v in kpis_table.items():
         print(f"  {k}: {v}")
-    print()
+    print()'''
 
     # Test LLM filter parser
     print("=" * 60)
@@ -75,6 +75,7 @@ try:
     print("=" * 60)
     raw_text = extract_pdf_text(file_path)
     kpis_llm = parse_kpis(raw_text)
+    #kpis_llm = parse_kpis_with_gemini(file_path)
     print("Extracted KPIs:")
     for k, v in kpis_llm.items():
         print(f"  {k}: {v}")
