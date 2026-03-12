@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
+import re
 from typing import Optional
 
 from fastapi import Depends, FastAPI, File, Form, HTTPException, Query, Response, UploadFile
@@ -113,6 +114,11 @@ def home() -> str:
     """
 
 
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon() -> Response:
+    return Response(status_code=204)
+
+
 @app.post("/upload")
 def upload_supplier_pdf(
     supplier_name: str = Form(...),
@@ -202,7 +208,7 @@ def upload_supplier_pdf(
         db.refresh(yearly_record)
     except Exception as exc:
         db.rollback()
-        raise HTTPException(status_code=500, detail="Failed to store extracted supplier data.") from exc
+        raise HTTPException(status_code=500, detail=f"Failed to store extracted supplier data: {exc}") from exc
 
     return {
         "message": f"Upload processed successfully ({action}).",
@@ -234,23 +240,22 @@ def upload_supplier_pdf_tables(  # noqa: C901
     # kpis = parse_kpis_from_json(tables_json)
 
     raw_text = extract_text_from_pdf_bytes(pdf_bytes)
-    tables_json = pdf_tables_to_json(pdf_bytes)
 
     # The parser now uses text as a fallback to identify the year
     # kpis = parse_kpis_from_json(tables_json, raw_text=raw_text)
     kpis = parse_kpis(raw_text)
 
-    company_name: str = kpis.get("name") or (file.filename or "Unknown Supplier")
-    reporting_year: Optional[int] = kpis.get("year")
+    fallback_name, fallback_year = identify_supplier_and_year(raw_text, file.filename or "")
+    company_name: str = kpis.get("name") or fallback_name or (file.filename or "Unknown Supplier")
+    reporting_year: Optional[int] = _to_optional_year(kpis.get("year")) or _to_optional_year(fallback_year)
     if reporting_year is None:
-        print("Warning: Reporting year could not be identified from tables, falling back to text extraction.")
-        #raise HTTPException(status_code=422, detail="Could not identify the reporting year from the PDF tables.")
+        raise HTTPException(status_code=422, detail="Could not identify the reporting year from the PDF.")
 
-    turnover = _to_optional_float(kpis.get("turnover"))
-    ebit = _to_optional_float(kpis.get("ebit"))
-    ebitda = _to_optional_float(kpis.get("ebitda"))
-    employees = _to_optional_int(kpis.get("employees"))
-    investments = _to_optional_float(kpis.get("investments"))
+    turnover = kpis.get("turnover") #_to_optional_float(kpis.get("turnover"))
+    ebit = kpis.get("ebit") #_to_optional_float(kpis.get("ebit"))
+    ebitda = kpis.get("ebitda") # _to_optional_float(kpis.get("ebitda"))
+    employees = kpis.get("employees") # _to_optional_int(kpis.get("employees"))
+    investments = kpis.get("investments") # _to_optional_float(kpis.get("investments"))
     quick_score = calculate_quick_score(
         turnover=turnover,
         ebit=ebit,
@@ -278,7 +283,7 @@ def upload_supplier_pdf_tables(  # noqa: C901
         db.refresh(yearly_record)
     except Exception as exc:
         db.rollback()
-        raise HTTPException(status_code=500, detail="Failed to store extracted supplier data.") from exc
+        raise HTTPException(status_code=500, detail=f"Failed to store extracted supplier data: {exc}") from exc
 
     def _fmt(value: object, suffix: str = "") -> str:
         return f"{value:,.2f}{suffix}" if isinstance(value, float) else (str(value) if value is not None else "n/a")
@@ -485,3 +490,26 @@ def _to_optional_int(value: object) -> Optional[int]:
     if value is None:
         return None
     return int(value)
+
+
+def _to_optional_year(value: object) -> Optional[int]:
+    if value is None:
+        return None
+
+    if isinstance(value, int):
+        year = value
+    elif isinstance(value, float):
+        if not value.is_integer():
+            return None
+        year = int(value)
+    elif isinstance(value, str):
+        match = re.search(r"\b(19\d{2}|20\d{2}|21\d{2})\b", value)
+        if not match:
+            return None
+        year = int(match.group(1))
+    else:
+        return None
+
+    if 1900 <= year <= 2199:
+        return year
+    return None

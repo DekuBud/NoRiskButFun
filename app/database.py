@@ -5,7 +5,7 @@ import os
 from typing import Generator
 
 from dotenv import load_dotenv
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 load_dotenv()
@@ -40,3 +40,27 @@ def create_db_and_tables() -> None:
     from app import models  # noqa: F401  # Import registers model metadata.
 
     Base.metadata.create_all(bind=engine)
+    _ensure_supplier_year_data_columns()
+
+
+def _ensure_supplier_year_data_columns() -> None:
+    """Backfill columns that may be missing in older SQLite databases."""
+    table_name = "supplier_year_data"
+    missing_column_statements = {
+        "equity_ratio": 'ALTER TABLE "supplier_year_data" ADD COLUMN "equity_ratio" FLOAT',
+        "debt_repayment_period": 'ALTER TABLE "supplier_year_data" ADD COLUMN "debt_repayment_period" FLOAT',
+        "return_on_total_assets": 'ALTER TABLE "supplier_year_data" ADD COLUMN "return_on_total_assets" FLOAT',
+        "cash_flow_performance_rate": 'ALTER TABLE "supplier_year_data" ADD COLUMN "cash_flow_performance_rate" FLOAT',
+        "financial_stability": 'ALTER TABLE "supplier_year_data" ADD COLUMN "financial_stability" FLOAT',
+        "earnings_power": 'ALTER TABLE "supplier_year_data" ADD COLUMN "earnings_power" FLOAT',
+    }
+
+    inspector = inspect(engine)
+    if table_name not in inspector.get_table_names():
+        return
+
+    existing_columns = {column["name"] for column in inspector.get_columns(table_name)}
+    with engine.begin() as conn:
+        for column_name, statement in missing_column_statements.items():
+            if column_name not in existing_columns:
+                conn.execute(text(statement))
