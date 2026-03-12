@@ -3,64 +3,6 @@ from __future__ import annotations
 
 from typing import Optional
 
-
-def calculate_quick_score1() -> dict[str, float]:
-    # Dummy-Daten
-    # Jahresüberschuss
-    netprofit: float = -2109586.30
-    # Abschreibung inkl. Teilwert-AfA
-    depreciation: float = 87880.69
-    # Rückstellungen für Abfertigungen aktuelles Jahr
-    provisionsForSeverancePaymentsCurrent: float = 0
-    # Rückstellungen für Abfertigungen letztes Jahr
-    provisionsForSeverancePaymentsPast: float = 0
-    # Rückstellungen für Pension aktuelles Jahr
-    provisionsForPensionCurrent: float = 3449191.80
-    # Rückstellungen für Pension letztes Jahr
-    provisionsForPensionPast: float = 2961403.53
-    # Buchwert abgegangener Anlagen
-    bookValueOfDisposedAssets: float = 0
-    # Eigenkapital
-    equity: float = 151733151.61
-    # Gesamtkapital
-    totalCapital: float = 345260174.19
-    # Flüssige Mittel
-    cash: float = 328317.80
-    # kurzfristige Wertpapiere
-    stocks: float = 0
-    # Ergebniss der gewöhnlichen Geschäftstätigkeit
-    egt: float = -2098151.90
-    # Fremdkapitalzinsen
-    interestExpense: float = 7249174.73
-    # Umsatz
-    revenue: float = 6234414.24
-    # Bestandsveränderung
-    changeInInvertory: float = 0
-    # Aktivierte Eigenleistungen
-    capitalizedOwnWork: float = 0
-
-    print("hallo")
-
-    
-    return calculate_quick(
-        netprofit,
-        depreciation,
-        provisionsForSeverancePaymentsCurrent,
-        provisionsForSeverancePaymentsPast,
-        provisionsForPensionCurrent,
-        provisionsForPensionPast,
-        bookValueOfDisposedAssets,
-        equity,
-        totalCapital,
-        cash,
-        stocks,
-        egt,
-        interestExpense,
-        revenue,
-        changeInInvertory,
-        capitalizedOwnWork
-    )
-
 def calculate_quick_score(
     netprofit: Optional[float],
     depreciation: Optional[float],
