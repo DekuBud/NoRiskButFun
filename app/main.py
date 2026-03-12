@@ -44,45 +44,70 @@ def home() -> str:
           .form-card { background: white; border-radius: 8px; padding: 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
           .form-group { margin-bottom: 20px; }
           label { display: block; margin-bottom: 8px; font-weight: 500; color: #333; }
-          input[type="text"], input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; box-sizing: border-box; }
-          input[type="text"]:focus, input[type="file"]:focus { outline: none; border-color: #0066cc; box-shadow: 0 0 0 3px rgba(0,102,204,0.1); }
+          input[type="file"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; box-sizing: border-box; }
+          input[type="file"]:focus { outline: none; border-color: #0066cc; box-shadow: 0 0 0 3px rgba(0,102,204,0.1); }
           button { background: #0066cc; color: white; padding: 12px 24px; border: none; border-radius: 4px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; }
           button:hover { background: #0052a3; }
+          button:disabled { background: #7aaedd; cursor: not-allowed; }
           .info { background: #f0f8ff; padding: 15px; border-left: 4px solid #0066cc; margin-top: 20px; color: #333; }
           code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; }
+
+          /* Loading overlay */
+          #loading-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(245, 245, 245, 0.92);
+            z-index: 1000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+          }
+          #loading-overlay.active { display: flex; }
+          .spinner {
+            width: 56px; height: 56px;
+            border: 5px solid #d0e4f7;
+            border-top-color: #0066cc;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+          }
+          @keyframes spin { to { transform: rotate(360deg); } }
+          .loading-text { font-size: 1.1rem; color: #333; font-weight: 500; }
+          .loading-sub { font-size: 0.85rem; color: #666; }
         </style>
       </head>
       <body>
+        <!-- Loading overlay -->
+        <div id="loading-overlay">
+          <div class="spinner"></div>
+          <div class="loading-text">Extracting KPIs&hellip;</div>
+          <div class="loading-sub">This may take a few seconds. Please wait.</div>
+        </div>
+
         <h1>NoRiskButFun</h1>
         <div class="form-card">
-          <p>Upload a supplier PDF and provide the supplier name to extract KPIs and store financial data.</p>
-          <form action="/upload" enctype="multipart/form-data" method="post">
-            <div class="form-group">
-              <label for="supplier_name">Supplier Name *</label>
-              <input id="supplier_name" name="supplier_name" type="text" placeholder="e.g., Acme Corp" required />
-            </div>
+          <h2 style="font-size:1.1rem;margin-top:0">Table-based extraction</h2>
+          <p>Extracts company name, year, turnover and employees directly from PDF tables.</p>
+          <form id="upload-form" action="/upload-tables" enctype="multipart/form-data" method="post">
             <div class="form-group">
               <label for="file">PDF File *</label>
               <input id="file" name="file" type="file" accept="application/pdf" required />
             </div>
-                        <button type="submit">Upload & Extract KPIs (text)</button>
+            <button type="submit" id="submit-btn">Upload &amp; Extract KPIs</button>
           </form>
         </div>
-                <div class="form-card" style="margin-top:24px">
-                    <h2 style="font-size:1.1rem;margin-top:0">Table-based extraction</h2>
-                    <p>Extracts company name, year, turnover and employees directly from PDF tables.</p>
-                    <form action="/upload-tables" enctype="multipart/form-data" method="post">
-                        <div class="form-group">
-                            <label for="file2">PDF File *</label>
-                            <input id="file2" name="file" type="file" accept="application/pdf" required />
-                        </div>
-                        <button type="submit">Upload & Extract KPIs (tables)</button>
-                    </form>
-                </div>
         <div class="info">
           <p><strong>Next steps:</strong></p>
           <p>After upload, access the supplier history at <code>/suppliers/{supplier_id}</code><br/>or generate a PDF report at <code>/suppliers/{supplier_id}/report</code></p>
         </div>
+
+        <script>
+          document.getElementById('upload-form').addEventListener('submit', function() {
+            document.getElementById('submit-btn').disabled = true;
+            document.getElementById('loading-overlay').classList.add('active');
+          });
+        </script>
       </body>
     </html>
     """
@@ -193,10 +218,10 @@ def upload_supplier_pdf(
 
 
 @app.post("/upload-tables")
-def upload_supplier_pdf_tables(
+def upload_supplier_pdf_tables(  # noqa: C901
     file: UploadFile = File(...),
     db: Session = Depends(get_db),
-) -> dict:
+) -> HTMLResponse:
     """Upload a PDF, extract KPIs from its tables (structured JSON), store and return results."""
     if not file.filename or not file.filename.lower().endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Please upload a PDF file.")
@@ -218,7 +243,8 @@ def upload_supplier_pdf_tables(
     company_name: str = kpis.get("name") or (file.filename or "Unknown Supplier")
     reporting_year: Optional[int] = kpis.get("year")
     if reporting_year is None:
-        raise HTTPException(status_code=422, detail="Could not identify the reporting year from the PDF tables.")
+        print("Warning: Reporting year could not be identified from tables, falling back to text extraction.")
+        #raise HTTPException(status_code=422, detail="Could not identify the reporting year from the PDF tables.")
 
     turnover = _to_optional_float(kpis.get("turnover"))
     ebit = _to_optional_float(kpis.get("ebit"))
@@ -254,23 +280,68 @@ def upload_supplier_pdf_tables(
         db.rollback()
         raise HTTPException(status_code=500, detail="Failed to store extracted supplier data.") from exc
 
-    return {
-        "message": f"Upload processed successfully ({action}).",
-        "supplier": {"id": supplier.id, "name": supplier.name},
-        "year_data": _serialize_year_data(yearly_record),
-        "extraction": {
-            "company_name": company_name,
-            "reporting_year": reporting_year,
-            "kpis": {
-                "turnover": turnover,
-                "ebit": ebit,
-                "ebitda": ebitda,
-                "employees": employees,
-                "investments": investments,
-            },
-            "quick_score": quick_score,
-        },
-    }
+    def _fmt(value: object, suffix: str = "") -> str:
+        return f"{value:,.2f}{suffix}" if isinstance(value, float) else (str(value) if value is not None else "n/a")
+
+    action_label = "Created new record" if action == "created" else "Updated existing record"
+    score_color = "#1a7f37" if (quick_score or 0) >= 60 else ("#d97706" if (quick_score or 0) >= 30 else "#cf222e")
+
+    html = f"""
+    <html>
+        <head>
+            <title>Extraction Result – NoRiskButFun</title>
+            <style>
+                body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 640px; margin: 40px auto; padding: 20px; background: #f5f5f5; }}
+                h1 {{ color: #333; margin-bottom: 4px; }}
+                .sub {{ color: #666; margin-bottom: 28px; font-size: 0.9rem; }}
+                .card {{ background: white; border-radius: 8px; padding: 24px 28px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }}
+                .card h2 {{ font-size: 1rem; color: #0066cc; margin: 0 0 16px; text-transform: uppercase; letter-spacing: .05em; }}
+                table {{ width: 100%; border-collapse: collapse; }}
+                td {{ padding: 8px 6px; border-bottom: 1px solid #f0f0f0; font-size: 0.92rem; }}
+                td:first-child {{ color: #555; width: 48%; }}
+                td:last-child {{ font-weight: 600; color: #222; }}
+                .badge {{ display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; }}
+                .badge-created {{ background: #dafbe1; color: #1a7f37; }}
+                .badge-updated {{ background: #ddf4ff; color: #0066cc; }}
+                .score {{ font-size: 1.6rem; font-weight: 700; color: {score_color}; }}
+                .back {{ display: inline-block; margin-top: 8px; padding: 10px 20px; background: #0066cc; color: white; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 0.9rem; }}
+                .back:hover {{ background: #0052a3; }}
+            </style>
+        </head>
+        <body>
+            <h1>Extraction Result</h1>
+            <p class="sub">File: <strong>{file.filename}</strong> &nbsp;·&nbsp; <span class="badge {'badge-created' if action == 'created' else 'badge-updated'}">{action_label}</span></p>
+
+            <div class="card">
+                <h2>Supplier</h2>
+                <table>
+                    <tr><td>Name</td><td>{company_name}</td></tr>
+                    <tr><td>Supplier ID</td><td>{supplier.id}</td></tr>
+                    <tr><td>Reporting Year</td><td>{reporting_year if reporting_year is not None else "n/a"}</td></tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>Extracted KPIs</h2>
+                <table>
+                    <tr><td>Turnover</td><td>{_fmt(turnover, " €")}</td></tr>
+                    <tr><td>EBIT</td><td>{_fmt(ebit, " €")}</td></tr>
+                    <tr><td>EBITDA</td><td>{_fmt(ebitda, " €")}</td></tr>
+                    <tr><td>Employees</td><td>{employees if employees is not None else "n/a"}</td></tr>
+                    <tr><td>Investments</td><td>{_fmt(investments, " €")}</td></tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>Quick Score</h2>
+                <p class="score">{_fmt(quick_score)} <span style="font-size:1rem;font-weight:400;color:#666;">/ 100</span></p>
+            </div>
+
+            <a class="back" href="/">&#8592; Upload another PDF</a>
+        </body>
+    </html>
+    """
+    return HTMLResponse(content=html)
 
 
 @app.get("/suppliers/{supplier_id}")
