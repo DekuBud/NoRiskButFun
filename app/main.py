@@ -115,20 +115,6 @@ def upload_supplier_pdf(
         raise HTTPException(status_code=422, detail="Could not identify the reporting year.")
 
     kpis = parse_kpis(raw_text)
-    # Pflichtfelder Prüfen
-    """
-    if not kpis.get("netprofit"):
-        raise HTTPException(status_code=422, detail="Could not identify the net-profit.")
-    if not kpis.get("depreciation"):
-        raise HTTPException(status_code=422, detail="Could not identify the deprecation.")
-    if not kpis.get("equity"):
-        raise HTTPException(status_code=422, detail="Could not identify the equity.")
-    if not kpis.get("totalCapital"):
-        raise HTTPException(status_code=422, detail="Could not identify the total-capital.")
-    if not kpis.get("interestExpense"):
-        raise HTTPException(status_code=422, detail="Could not identify the interest-expense.")
-    if not kpis.get("revenue"):
-        raise HTTPException(status_code=422, detail="Could not identify the revenue.")
 
     result = calculate_quick_score(
         _to_optional_float(kpis.get("netprofit")),
@@ -148,15 +134,6 @@ def upload_supplier_pdf(
         _to_optional_float(kpis.get("changeInInvertory")),
         _to_optional_float(kpis.get("capitalizedOwnWork"))
     )
-    """
-
-    quick_score = calculate_quick_score(
-        turnover=_to_optional_float(kpis.get("turnover")),
-        ebit=_to_optional_float(kpis.get("ebit")),
-        ebitda=_to_optional_float(kpis.get("ebitda")),
-        employees=_to_optional_int(kpis.get("employees")),
-        investments=_to_optional_float(kpis.get("investments")),
-    )
 
     try:
         supplier = _get_or_create_supplier(db, supplier_name)
@@ -170,7 +147,13 @@ def upload_supplier_pdf(
             ebitda=_to_optional_float(kpis.get("ebitda")),
             employees=_to_optional_int(kpis.get("employees")),
             investments=_to_optional_float(kpis.get("investments")),
-            quick_score=quick_score,
+            quick_score=_to_optional_float(result["quickScore"]),
+            equityRatio=_to_optional_float(result["equityRatio"]),
+            debtRepaymentPeriod=_to_optional_float(result["debtRepaymentPeriod"]),
+            returnOnTotalAssets=_to_optional_float(result["returnOnTotalAssets"]),
+            cashFlowPerformanceRate=_to_optional_float(result["cashFlowPerformanceRate"]),
+            financialStability=_to_optional_float(result["financialStability"]),
+            earningsPower=_to_optional_float(result["earningsPower"])
         )
         db.commit()
         db.refresh(supplier)
@@ -187,7 +170,7 @@ def upload_supplier_pdf(
             "supplier_name": supplier_name,
             "reporting_year": reporting_year,
             "kpis": kpis,
-            "quick_score": quick_score,
+            "quick_score": result["quickScore"],
         },
     }
 
@@ -213,16 +196,23 @@ def upload_supplier_pdf_tables(
     if reporting_year is None:
         raise HTTPException(status_code=422, detail="Could not identify the reporting year from the PDF tables.")
 
-    turnover = _to_optional_float(kpis.get("turnover"))
-    ebit = _to_optional_float(kpis.get("ebit"))
-    ebitda = _to_optional_float(kpis.get("ebitda"))
-    employees = _to_optional_int(kpis.get("employees"))
-    quick_score = calculate_quick_score(
-        turnover=turnover,
-        ebit=ebit,
-        ebitda=ebitda,
-        employees=employees,
-        investments=None,
+    result = calculate_quick_score(
+        _to_optional_float(kpis.get("netprofit")),
+        _to_optional_float(kpis.get("depreciation")),
+        _to_optional_float(kpis.get("provisionsForSeverancePaymentsCurrent")),
+        _to_optional_float(kpis.get("provisionsForSeverancePaymentsPast")),
+        _to_optional_float(kpis.get("provisionsForPensionCurrent")),
+        _to_optional_float(kpis.get("provisionsForPensionPast")),
+        _to_optional_float(kpis.get("bookValueOfDisposedAssets")),
+        _to_optional_float(kpis.get("equity")),
+        _to_optional_float(kpis.get("totalCapital")),
+        _to_optional_float(kpis.get("cash")),
+        _to_optional_float(kpis.get("stocks")),
+        _to_optional_float(kpis.get("egt")),
+        _to_optional_float(kpis.get("interestExpense")),
+        _to_optional_float(kpis.get("revenue")),
+        _to_optional_float(kpis.get("changeInInvertory")),
+        _to_optional_float(kpis.get("capitalizedOwnWork"))
     )
 
     try:
@@ -232,12 +222,18 @@ def upload_supplier_pdf_tables(
             supplier=supplier,
             year=reporting_year,
             source_filename=file.filename,
-            turnover=turnover,
-            ebit=ebit,
-            ebitda=ebitda,
-            employees=employees,
-            investments=None,
-            quick_score=quick_score,
+            turnover=_to_optional_float(kpis.get("turnover")),
+            ebit=_to_optional_float(kpis.get("ebit")),
+            ebitda=_to_optional_float(kpis.get("ebitda")),
+            employees=_to_optional_int(kpis.get("employees")),
+            investments=_to_optional_float(kpis.get("investments")),
+            quick_score=_to_optional_float(result["quickScore"]),
+            equityRatio=_to_optional_float(result["equityRatio"]),
+            debtRepaymentPeriod=_to_optional_float(result["debtRepaymentPeriod"]),
+            returnOnTotalAssets=_to_optional_float(result["returnOnTotalAssets"]),
+            cashFlowPerformanceRate=_to_optional_float(result["cashFlowPerformanceRate"]),
+            financialStability=_to_optional_float(result["financialStability"]),
+            earningsPower=_to_optional_float(result["earningsPower"])
         )
         db.commit()
         db.refresh(supplier)
@@ -251,15 +247,9 @@ def upload_supplier_pdf_tables(
         "supplier": {"id": supplier.id, "name": supplier.name},
         "year_data": _serialize_year_data(yearly_record),
         "extraction": {
-            "company_name": company_name,
             "reporting_year": reporting_year,
-            "kpis": {
-                "turnover": turnover,
-                "ebit": ebit,
-                "ebitda": ebitda,
-                "employees": employees,
-            },
-            "quick_score": quick_score,
+            "kpis": kpis,
+            "quick_score": result["quickScore"],
         },
     }
 
@@ -338,6 +328,12 @@ def _upsert_supplier_year_data(
     employees: Optional[int],
     investments: Optional[float],
     quick_score: Optional[float],
+    equityRatio: Optional[float],
+    debtRepaymentPeriod: Optional[float],
+    returnOnTotalAssets: Optional[float],
+    cashFlowPerformanceRate: Optional[float],
+    financialStability: Optional[float],
+    earningsPower: Optional[float]
 ) -> tuple[SupplierYearData, str]:
     """Keep duplicate handling simple: update the same supplier-year row when it already exists."""
     yearly_record = db.scalar(
@@ -361,6 +357,12 @@ def _upsert_supplier_year_data(
     yearly_record.employees = employees
     yearly_record.investments = investments
     yearly_record.quick_score = quick_score
+    yearly_record.equity_ratio = equityRatio
+    yearly_record.debt_repayment_period = debtRepaymentPeriod
+    yearly_record.return_on_total_assets = returnOnTotalAssets
+    yearly_record.cash_flow_performance_rate = cashFlowPerformanceRate
+    yearly_record.financial_stability = financialStability
+    yearly_record.earnings_power = earningsPower
     yearly_record.source_filename = source_filename
 
     db.flush()
@@ -389,6 +391,12 @@ def _serialize_year_data(record: SupplierYearData) -> dict:
         "employees": record.employees,
         "investments": record.investments,
         "quick_score": record.quick_score,
+        "equity_ratio": record.equity_ratio,
+        "debt_repayment_period": record.debt_repayment_period,
+        "return_on_total_assets": record.return_on_total_assets,
+        "cash_flow_performance_rate": record.cash_flow_performance_rate,
+        "financial_stability": record.financial_stability,
+        "earnings_power": record.earnings_power,
         "source_filename": record.source_filename,
         "created_at": record.created_at.isoformat() if record.created_at else None,
         "updated_at": record.updated_at.isoformat() if record.updated_at else None,

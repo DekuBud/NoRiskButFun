@@ -4,47 +4,7 @@ from __future__ import annotations
 from typing import Optional
 
 
-def calculate_quick_score(
-    turnover: Optional[float],
-    ebit: Optional[float],
-    ebitda: Optional[float],
-    employees: Optional[int],
-    investments: Optional[float],
-) -> Optional[float]:
-    """Return a simple score between 0 and 100 based on available KPI signals."""
-    score = 50.0
-    has_signal = False
-
-    quickTest()
-
-    if turnover is not None:
-        has_signal = True
-        score += 10 if turnover > 0 else -15
-
-    if ebit is not None:
-        has_signal = True
-        score += 15 if ebit > 0 else -20
-
-    if ebitda is not None:
-        has_signal = True
-        score += 15 if ebitda > 0 else -15
-
-    if employees is not None:
-        has_signal = True
-        score += 5 if employees > 0 else -5
-
-    if investments is not None:
-        has_signal = True
-        score += 5 if investments >= 0 else -5
-
-    if not has_signal:
-        return None
-
-    # TODO: Replace this placeholder with a business-approved scoring model.
-    return round(max(0.0, min(100.0, score)), 2)
-
-
-def quickTest() -> dict[str, float]:
+def calculate_quick_score1() -> dict[str, float]:
     # Dummy-Daten
     # Jahresüberschuss
     netprofit: float = -2109586.30
@@ -79,7 +39,10 @@ def quickTest() -> dict[str, float]:
     # Aktivierte Eigenleistungen
     capitalizedOwnWork: float = 0
 
-    result = dummyMethode(
+    print("hallo")
+
+    
+    return calculate_quick(
         netprofit,
         depreciation,
         provisionsForSeverancePaymentsCurrent,
@@ -98,17 +61,7 @@ def quickTest() -> dict[str, float]:
         capitalizedOwnWork
     )
 
-    print(f'Eigenkapitalquote: {result["equityRatio"]}')
-    print(f'Schuldentilgungsdauer: {result["debtRepaymentPeriod"]}')
-    print(f'Gesamtkapitalrentablilität: {result["returnOnTotalAssets"]}')
-    print(f'Cash-FLow Leistungsrate: {result["cashFlowPerformanceRate"]}')
-    print(f'finanzielle Stabilität: {result["financialStability"]}')
-    print(f'Ertragskraft: {result["earningsPower"]}')
-    print(f'Quick-Test: {result["quickScore"]}')
-
-    print(f'ROI: {calculate_ROI(58030433.68, revenue, totalCapital)}')
-
-def dummyMethode(
+def calculate_quick_score(
     netprofit: Optional[float],
     depreciation: Optional[float],
     provisionsForSeverancePaymentsCurrent: Optional[float],
@@ -139,84 +92,95 @@ def dummyMethode(
     changeInInvertory = zero_if_none(changeInInvertory)
     capitalizedOwnWork = zero_if_none(capitalizedOwnWork)
 
-    # Fremdkapital
-    liabilities: float = totalCapital - equity
-    # Betriebsleistung
-    operatingPerformance = revenue + changeInInvertory + capitalizedOwnWork
-    # Cash Flow
-    provisionSeverancePayment = provisionsForSeverancePaymentsCurrent - provisionsForSeverancePaymentsPast
-    provisionPension = provisionsForPensionCurrent - provisionsForPensionPast
-    cashflow = netprofit + depreciation + provisionSeverancePayment + provisionPension + bookValueOfDisposedAssets
-    
-    # Eigenkapitalquote
-    equityRatio = equity / totalCapital * 100
-    equityRatioScore = 5
-    if equityRatio > 30:
-        equityRatioScore = 1
-    elif equityRatio > 20:
-        equityRatioScore = 2
-    elif equityRatio > 10:
-        equityRatioScore = 3
-    elif equityRatio >= 0:
-        equityRatioScore = 4
-    
-    # Schuldentilgungsdauer
-    if cashflow != 0:
-        debtRepaymentPeriod = (liabilities - cash - stocks) / cashflow
-        debtRepaymentPeriodScore = 5
-        if debtRepaymentPeriod < 0:
+    if netprofit and depreciation and equity and totalCapital and interestExpense and revenue:
+        # Fremdkapital
+        liabilities: float = totalCapital - equity
+        # Betriebsleistung
+        operatingPerformance = revenue + changeInInvertory + capitalizedOwnWork
+        # Cash Flow
+        provisionSeverancePayment = provisionsForSeverancePaymentsCurrent - provisionsForSeverancePaymentsPast
+        provisionPension = provisionsForPensionCurrent - provisionsForPensionPast
+        cashflow = netprofit + depreciation + provisionSeverancePayment + provisionPension + bookValueOfDisposedAssets
+        
+        # Eigenkapitalquote
+        equityRatio = equity / totalCapital * 100
+        equityRatioScore = 5
+        if equityRatio > 30:
+            equityRatioScore = 1
+        elif equityRatio > 20:
+            equityRatioScore = 2
+        elif equityRatio > 10:
+            equityRatioScore = 3
+        elif equityRatio >= 0:
+            equityRatioScore = 4
+        
+        # Schuldentilgungsdauer
+        if cashflow != 0:
+            debtRepaymentPeriod = (liabilities - cash - stocks) / cashflow
             debtRepaymentPeriodScore = 5
-        elif debtRepaymentPeriod < 3:
-            debtRepaymentPeriodScore = 1
-        elif debtRepaymentPeriod < 5:
-            debtRepaymentPeriodScore = 2
-        elif debtRepaymentPeriod < 12:
-            debtRepaymentPeriodScore = 3
-        elif debtRepaymentPeriod < 30:
-            debtRepaymentPeriodScore = 4
+            if debtRepaymentPeriod < 0:
+                debtRepaymentPeriodScore = 5
+            elif debtRepaymentPeriod < 3:
+                debtRepaymentPeriodScore = 1
+            elif debtRepaymentPeriod < 5:
+                debtRepaymentPeriodScore = 2
+            elif debtRepaymentPeriod < 12:
+                debtRepaymentPeriodScore = 3
+            elif debtRepaymentPeriod < 30:
+                debtRepaymentPeriodScore = 4
 
-    # Finanzielle Stabilität - Bewertung
-    financialStability = (equityRatioScore + debtRepaymentPeriodScore) / 2
+        # Finanzielle Stabilität - Bewertung
+        financialStability = (equityRatioScore + debtRepaymentPeriodScore) / 2
 
-    # Gesamtkapitalrentablilität
-    returnOnTotalAssets = (egt + interestExpense) / totalCapital * 100
-    returnOnTotalAssetsScore = 5
-    if returnOnTotalAssets > 15:
-        returnOnTotalAssetsScore = 1
-    elif returnOnTotalAssets > 12:
-        returnOnTotalAssetsScore = 2
-    elif returnOnTotalAssets > 8:
-        returnOnTotalAssetsScore = 3
-    elif returnOnTotalAssets >= 0:
-        returnOnTotalAssetsScore = 4
+        # Gesamtkapitalrentablilität
+        returnOnTotalAssets = (egt + interestExpense) / totalCapital * 100
+        returnOnTotalAssetsScore = 5
+        if returnOnTotalAssets > 15:
+            returnOnTotalAssetsScore = 1
+        elif returnOnTotalAssets > 12:
+            returnOnTotalAssetsScore = 2
+        elif returnOnTotalAssets > 8:
+            returnOnTotalAssetsScore = 3
+        elif returnOnTotalAssets >= 0:
+            returnOnTotalAssetsScore = 4
 
-    # Cash-FLow Leistungsrate
-    cashFlowPerformanceRate = cashflow / operatingPerformance * 100
-    cashFlowPerformanceRateScore = 5
-    if cashFlowPerformanceRate > 10:
-        cashFlowPerformanceRateScore = 1
-    elif cashFlowPerformanceRate > 8:
-        cashFlowPerformanceRateScore = 2
-    elif cashFlowPerformanceRate > 5:
-        cashFlowPerformanceRateScore = 3
-    elif cashFlowPerformanceRate >= 0:
-        cashFlowPerformanceRateScore = 4
+        # Cash-FLow Leistungsrate
+        cashFlowPerformanceRate = cashflow / operatingPerformance * 100
+        cashFlowPerformanceRateScore = 5
+        if cashFlowPerformanceRate > 10:
+            cashFlowPerformanceRateScore = 1
+        elif cashFlowPerformanceRate > 8:
+            cashFlowPerformanceRateScore = 2
+        elif cashFlowPerformanceRate > 5:
+            cashFlowPerformanceRateScore = 3
+        elif cashFlowPerformanceRate >= 0:
+            cashFlowPerformanceRateScore = 4
 
-    # Ertragskraft - Bewertung
-    earningsPower = (returnOnTotalAssetsScore + cashFlowPerformanceRateScore) / 2
+        # Ertragskraft - Bewertung
+        earningsPower = (returnOnTotalAssetsScore + cashFlowPerformanceRateScore) / 2
 
-    # Gesamtbewertung
-    quickScore = (financialStability + earningsPower) / 2
+        # Gesamtbewertung
+        quickScore = (financialStability + earningsPower) / 2
 
-    return {
-        "equityRatio": round(equityRatio, 2),
-        "debtRepaymentPeriod": round(debtRepaymentPeriod, 2),
-        "returnOnTotalAssets": round(returnOnTotalAssets, 2),
-        "cashFlowPerformanceRate": round(cashFlowPerformanceRate, 2),
-        "financialStability": financialStability,
-        "earningsPower": earningsPower,
-        "quickScore": quickScore
-    }
+        return {
+            "equityRatio": round(equityRatio, 2),
+            "debtRepaymentPeriod": round(debtRepaymentPeriod, 2),
+            "returnOnTotalAssets": round(returnOnTotalAssets, 2),
+            "cashFlowPerformanceRate": round(cashFlowPerformanceRate, 2),
+            "financialStability": financialStability,
+            "earningsPower": earningsPower,
+            "quickScore": quickScore
+        }
+    else:
+        return {
+            "equityRatio": None,
+            "debtRepaymentPeriod": None,
+            "returnOnTotalAssets": None,
+            "cashFlowPerformanceRate": None,
+            "financialStability": None,
+            "earningsPower": None,
+            "quickScore": None
+        }
 
 def zero_if_none(value: Optional[float]) -> float:
     return 0 if value is None else value
