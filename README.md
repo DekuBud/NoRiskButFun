@@ -63,3 +63,21 @@ Useful routes:
 - `GET /suppliers/{supplier_id}/report`
 
 See [docs/setup.md](docs/setup.md) for setup details and [docs/architecture.md](docs/architecture.md) for the architecture overview.
+
+# run database
+sqlite_web noriskbutfun.db --host 127.0.0.1 --port 8081
+
+# if .venv breakes:
+
+deactivate 2>/dev/null || true
+rm -rf .venv
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+cp -n .env.example .env
+python -m uvicorn app.main:app --reload
+
+# create random data for demo (change supplier id and year!):
+.venv/bin/python -m scripts.seed_supplier_demo_data --supplier-id 1 --year 2020
+

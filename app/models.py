@@ -41,6 +41,12 @@ class SupplierYearData(Base):
     employees: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     investments: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     quick_score: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    equity_ratio: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    debt_repayment_period: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    return_on_total_assets: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    cash_flow_performance_rate: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    financial_stability: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    earnings_power: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     source_filename: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     updated_at: Mapped[datetime] = mapped_column(
