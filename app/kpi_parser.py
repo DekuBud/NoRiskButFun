@@ -26,6 +26,7 @@ def parse_kpis(text: str) -> dict[str, Optional[float | int]]:
     prompt = get_prompt(context_text)
 
     ollama_url = os.getenv("OLLAMA_URL", "http://localhost:11434")
+    ollama_model = os.getenv("OLLAMA_MODEL", "llama3")
     
     try:
         response = requests.post(
@@ -47,7 +48,6 @@ def parse_kpis(text: str) -> dict[str, Optional[float | int]]:
 
         if response.status_code != 200:
             return _empty_res()
-
         # Parse the JSON string from the LLM response
         raw_llm_output = response.json().get("response", "{}")
         llm_data = json.loads(raw_llm_output)
@@ -60,24 +60,42 @@ def parse_kpis(text: str) -> dict[str, Optional[float | int]]:
             "ebitda": llm_data.get("ebitda"),
             "employees": llm_data.get("employees"),
             "investments": llm_data.get("investments"),
-            "year": llm_data.get("year") # Added to track which year was found
+            "year": llm_data.get("year"),
+            "profit": llm_data.get("profit"),
+            "totalCapital": llm_data.get("totalCapital"),
         }
     except Exception as exc:
         print(f"Extraction Error: {exc}")
         return _empty_res()
 
 def _empty_res():
-    return {"turnover": None, "ebit": None, "depreciation": None, "ebitda": None, "employees": None, "investments": None, "year": None}
+    ''' returns 
+    {
+        "company_name": "string",
+        "year": integer,
+        "turnover": float,
+        "ebit": float,
+        "depreciation": float,
+        "ebitda": float,
+        "employees": float,
+        "investments": float,
+        "profit":float,
+        "totalCapital":float
+        }'''
+    return {"company_name": None, "year": None, "turnover": None, "ebit": None, "depreciation": None, "ebitda": None, "employees": None, "investments": None, "profit": None, "totalCapital": None}
 
 def _build_relevant_context(text: str) -> str:
     """
-    Surgically extracts windows of text around financial keywords.
+    Extracts windows of text around financial keywords.
     """
     keywords = [
         "umsatzerlöse", "betriebsergebnis", "personalaufwand", 
         "abschreibungen", "anlagen", "sachanlagen", "immaterielle", 
-        "zugänge", "investitionen", "anlagenspiegel", 
-        "teur", "t€", "mio", "mrd", "millionen"
+        "zugänge", "investitionen", "investition","anlagenspiegel", 
+        "teur", "t€", "mio", "mrd", "millionen", "milliarden",
+        "mitarbeiter", "beschäftigte", "jahresabschluss", "geschäftsjahr","gewinn",
+        "bilanzsumme", "summe aktiva", "summe passiva", "gesamtvermögen", "bilanz"
+
     ]
     
     lines = text.splitlines()
@@ -110,7 +128,7 @@ def parse_kpis_from_json(tables_json: str, raw_text: str = None) -> Dict[str, An
 
     res = {
         "company_name": None, "year": None, "turnover": None, "ebit": None, 
-        "depreciation": None, "ebitda": None, "employees": None, "investments": None
+        "depreciation": None, "ebitda": None, "employees": None, "investments": None, "profit": None, "totalCapital": None
     }
 
     # STEP 1: Detect Global Multiplier (TEUR check)

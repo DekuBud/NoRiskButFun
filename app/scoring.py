@@ -79,7 +79,7 @@ def quickTest() -> dict[str, float]:
     # Aktivierte Eigenleistungen
     capitalizedOwnWork: float = 0
 
-    result = dummyMethode(
+    return dummyMethode(
         netprofit,
         depreciation,
         provisionsForSeverancePaymentsCurrent,
@@ -97,16 +97,6 @@ def quickTest() -> dict[str, float]:
         changeInInvertory,
         capitalizedOwnWork
     )
-
-    print(f'Eigenkapitalquote: {result["equityRatio"]}')
-    print(f'Schuldentilgungsdauer: {result["debtRepaymentPeriod"]}')
-    print(f'Gesamtkapitalrentablilität: {result["returnOnTotalAssets"]}')
-    print(f'Cash-FLow Leistungsrate: {result["cashFlowPerformanceRate"]}')
-    print(f'finanzielle Stabilität: {result["financialStability"]}')
-    print(f'Ertragskraft: {result["earningsPower"]}')
-    print(f'Quick-Test: {result["quickScore"]}')
-
-    print(f'ROI: {calculate_ROI(58030433.68, revenue, totalCapital)}')
 
 def dummyMethode(
     netprofit: Optional[float],

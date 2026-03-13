@@ -16,7 +16,7 @@ from app.models import Supplier, SupplierYearData
 from app.news_service import build_news_service_from_env
 from app.pdf_extractor import extract_text_from_pdf_bytes, identify_supplier_and_year, pdf_tables_to_json
 from app.report_generator import generate_supplier_report_pdf
-from app.scoring import calculate_quick_score
+from app.scoring import calculate_quick_score, quickTest,calculate_ROI
 
 
 @asynccontextmanager
@@ -201,7 +201,7 @@ def upload_supplier_pdf(
             ebitda=_to_optional_float(kpis.get("ebitda")),
             employees=_to_optional_int(kpis.get("employees")),
             investments=_to_optional_float(kpis.get("investments")),
-            quick_score=quick_score,
+            quick_score=quickTest().get("quickScore") 
         )
         db.commit()
         db.refresh(supplier)
@@ -256,13 +256,7 @@ def upload_supplier_pdf_tables(  # noqa: C901
     ebitda = kpis.get("ebitda") # _to_optional_float(kpis.get("ebitda"))
     employees = kpis.get("employees") # _to_optional_int(kpis.get("employees"))
     investments = kpis.get("investments") # _to_optional_float(kpis.get("investments"))
-    quick_score = calculate_quick_score(
-        turnover=turnover,
-        ebit=ebit,
-        ebitda=ebitda,
-        employees=employees,
-        investments=investments,
-    )
+    quick_score = quickTest().get("quickScore") #calculate_quick_score(turnover, ebit, ebitda, employees, investments)
 
     try:
         supplier = _get_or_create_supplier(db, company_name)
@@ -334,15 +328,18 @@ def upload_supplier_pdf_tables(  # noqa: C901
                     <tr><td>EBITDA</td><td>{_fmt(ebitda, " €")}</td></tr>
                     <tr><td>Employees</td><td>{employees if employees is not None else "n/a"}</td></tr>
                     <tr><td>Investments</td><td>{_fmt(investments, " €")}</td></tr>
+                    <tr><td>Profit</td><td>{_fmt(kpis.get("profit"), " €")}</td></tr>
+                    <tr><td>Total Capital</td><td>{_fmt(kpis.get("totalCapital"), " €")}</td></tr>
                 </table>
             </div>
 
             <div class="card">
                 <h2>Quick Score</h2>
-                <p class="score">{_fmt(quick_score)} <span style="font-size:1rem;font-weight:400;color:#666;">/ 100</span></p>
+                <p class="score">{_fmt(quick_score)} </span></p>
             </div>
 
             <a class="back" href="/">&#8592; Upload another PDF</a>
+            <a class="back" href="/suppliers/{_fmt(supplier.id)}/report">Show report</a>
         </body>
     </html>
     """
@@ -473,7 +470,7 @@ def _serialize_year_data(record: SupplierYearData) -> dict:
         "ebitda": record.ebitda,
         "employees": record.employees,
         "investments": record.investments,
-        "quick_score": record.quick_score,
+        "quick_score": record.quick_score  if record.quick_score < 5  else 4.9,
         "source_filename": record.source_filename,
         "created_at": record.created_at.isoformat() if record.created_at else None,
         "updated_at": record.updated_at.isoformat() if record.updated_at else None,
