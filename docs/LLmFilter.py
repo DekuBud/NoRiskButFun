@@ -6,7 +6,7 @@ from typing import Optional
 from google import genai
 from google.genai import types
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "AIzaSyDrw6QEOFf1ZMI9osPWkrZiwdISuolibM8")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "API_KEY")
 
 
 # prompt text is stored in docs/prompt.txt.
